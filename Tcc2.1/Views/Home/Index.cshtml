@@ -1,0 +1,98 @@
+﻿@{
+    ViewBag.Title = "Index";
+    //Layout = "~/Views/_LayoutPage.cshtml";
+}
+
+@model Tcc2._1.Models.LoginUserModel 
+
+<!DOCTYPE html>
+
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Share Tools</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Staatliches&display=swap" rel="stylesheet">
+</head>
+
+@using System.Web.Optimization
+@Styles.Render("~/Content/css");
+@Scripts.Render("~/bundle/js");
+
+<body>
+    <section id="fundo">
+        <header id="barra_superior">
+            <h1 id="logo">SHARE TOOLS</h1>
+            <nav id="barra_superior_nav">
+                <ul id="barra_superior_nav">
+                    <li id="barra_superior_div">@Html.ActionLink("Home", "Principal", null, new { @id = "barra_superior_a" })</li>
+                    <li id="barra_superior_div"><a href="" id="barra_superior_a">Sobre</a></li>
+                    <li id="barra_superior_div"><a href="" id="barra_superior_a">Ajuda</a></li>
+                </ul>
+            </nav>
+            <section id="loginEcadastro">
+                <button type="button" id="loginEcadastro" style="background-color: #b22222;" value="Inscrever-se" data-section="#fundo_escuro" data-section2="#cadastro" onclick="irParaPagina('/Home/Cadastro')">Inscrever-se</button>
+                <button type="button" id="loginEcadastro" style="background-color: #363636;" value="Conectar-se" data-section="#fundo_escuro" data-section2="#login" onclick="abrir_fundo(this)">Conectar-se</button>
+                <!--<asp: LinkButton ID="LinkButton1" runat="server" OnClientClick="window.open(page2.aspx)"> LinkButton </ asp: LinkButton>-->
+            </section>
+        </header>
+
+        <main id="main">
+            <h1 id="main_h1">Bem vindo ao Share Tools!</h1>
+            <p id="main_p">Aqui você pode compartilhar e alugar ferramentas a qualquer momento e em qualquer lugar.</p>
+            <section id="buttons_main">
+                <button type="button" id="buttons_main" style="background-color: #b22222;" value="Ver ferramentas">@Html.ActionLink("Ver Ferramentas", "Principal")</button>
+                <button type="button" id="buttons_main" style="background-color: #363636;" value="Leia mais sobre">Leia mais sobre</button>
+            </section>
+        </main>
+
+        <footer id="inferior">
+            <div id="inferior_div_container">
+                <div id="inferior_div"><h1 style="color: #b22222; font-size: 4vmin;">Ferramentas</h1><p style="font-size: 3vmin">Encontre a ferramenta que precisar.</p></div>
+                <div id="inferior_div"><h1 style="color: #b22222; font-size: 4vmin;">Envio</h1><p style="font-size: 3vmin">Alugue ferramentas de qualquer localidade.</p></div>
+                <div id="inferior_div"><h1 style="color: #b22222; font-size: 4vmin;">Suporte rápido</h1><p style="font-size: 3vmin">Fornecemos suporte rápido ao cliente.</p></div>
+            </div>
+            <p id="footer_p">&copy Share Tools</p>
+            <!--<address>
+                Algum endereço
+            </address>-->
+        </footer>
+
+    </section>
+
+    <section id="fundo_escuro" style="display: none;">
+        <section id="login" data-display="flex" class="section_login" style="display: none;">
+            <i class="fas fa-times" style="position: absolute; margin-right: 10px; cursor: pointer; font-size: 40px; color: #1c1c1c; right: 12%; top: 3%;" data-section="#fundo_escuro" data-section2="#login" onclick="abrir_fundo(this)"></i>
+            <section id="logo">
+                <img src="~/Content/imagens/logo1.png" style="margin-top: 80px; width: 60%; height: 60%" id="logo_img" width="300" height="300" alt="">
+                <h1 id="logoLogin">Share Tools</h1>
+            </section>
+            <div id="borda_horizontal"></div>
+            <section id="login_container" style="font-size: 3vmin;">
+                <!-- Este form utiliza o Action result "Login" do controller "Home" quando o método for POST -->
+                @using (Html.BeginForm("Login", "Home", FormMethod.Post, new { @class = "login_form" }))
+                {
+                    <h1 id="h1_login">Login</h1>
+                    @Html.AntiForgeryToken();
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { placeholder = "Nome de usuário ou E-mail", style="width: 64%" } });<br />
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "ValidationError"})<br />
+
+                    @Html.EditorFor(model => model.Senha, new { htmlAttributes = new { placeholder = "Senha", type = "password", style = "width: 64%; margin-top: 3%" } });<br />
+                    @Html.ValidationMessageFor(model => model.Senha, "", new { @class = "ValidationError" })<br />
+
+                    @Html.ActionLink("Esqueceu a senha?", "EsqueciSenha", null, new { @id = "login_a"})<br />
+                    <input type="submit" id="login_button" style="background-color: #363636; font-size: 3vmin; height: 2%" value="Conectar-se"><i class="fas fa-check" id="icon"></i>
+
+                }
+                <hr style="width: 80%; margin-left: 10%; margin-right: 10%; margin-top: 25px;">
+                <p>Logar com:</p>
+                <i class="fab fa-google" style="cursor: pointer; margin-right: 5px; color: #525252;"></i>
+                <i class="fab fa-facebook-square" style="cursor: pointer; margin-left: 5px; color: #525252;"></i>
+                
+            </section>
+        </section>
+    </section>
+</body>
+</html>

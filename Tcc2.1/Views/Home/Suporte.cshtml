@@ -1,0 +1,74 @@
+﻿
+@{
+    ViewBag.Title = "Suporte";
+    Layout = "~/Views/_LayoutPage.cshtml";
+}
+
+<main id="conteudo_principal">
+    <br />
+    <h1 style="font-size: 3vmin">Perguntas frequentes: </h1>
+    <nav id="links">
+        <ul>
+            <li><a href="#question1">Como faço para cadastrar minha ferramenta?</a></li>
+            <li><a href="#question2">Como posso remover o anúncio da minha ferramenta?</a></li>
+            <li><a href="#question3">Como altero as informações da minha ferramenta?</a></li>
+            <li><a href="#suporte">Suporte</a></li>
+        </ul>
+    </nav>
+    <section id="perguntas">
+        <h1 id="question1">Como faço para cadastrar minha ferramenta?</h1>
+        <p id="questionp1">Você pode cadastrar sua ferramenta clicando em "minhas ferramentas" na aba de navegação. Depois clique no ícone <i class="fas fa-plus-square"></i> para cadastrar sua ferramenta.</p>
+        <a href="#links">Voltar ao topo</a>
+        <button data-question="#question1" data-questionp="#questionp1" id="loginEcadastro" style="background-color: #b22222; margin-bottom: 10px; width: 20%; margin-left: 20px;" onclick="Dizer(this)">Ouvir</button>
+        
+        <h1 id="question2">Como posso remover o anúncio da minha ferramenta?</h1>
+        <p id="questionp2">Para remover o anúncio da sua ferramenta basta clicar em "minhas ferramentas" na aba de navegação. Depois localize a ferramenta que deseja remover e aperte o ícone <i class="fas fa-minus-square"></i></p>
+        <a href="#links">Voltar ao topo</a>
+        <button data-question="#question2" data-questionp="#questionp2" id="loginEcadastro" style="background-color: #b22222; margin-bottom: 10px; width: 20%; margin-left: 20px;" onclick="Dizer(this)">Ouvir</button>
+        
+        <h1 id="question3">Como altero as informações da minha ferramenta?</h1>
+        <p id="questionp3">Para atualizar alguma informação da sua ferramenta clique em "minhas ferramentas" na aba de navegação. Depois localize a ferramenta que deseja alterar e aperte o ícone <i class="fas fa-cog"></i></p>
+        <a href="#links">Voltar ao topo</a>
+        <button data-question="#question3" data-questionp="#questionp3" id="loginEcadastro" style="background-color: #b22222; margin-bottom: 10px; width: 20%; margin-left: 20px;" onclick="Dizer(this)">Ouvir</button>
+    
+        
+    </section>
+    @{
+        var cliente_logado = ViewBag.cliente;
+
+        if (cliente_logado != null)
+        {
+        <section id="chat">
+            @using (Html.BeginForm("EnviarEmail", "Home", null, FormMethod.Post))
+            {
+                <h1 id="suporte">Suporte</h1>
+                <!--<select onchange="AlterarEnvioSuporte()">
+            <option value="Email">Enviar por WhatsApp</option>
+            <option value="Wpp">Enviar por E-mail</option>
+        </select>
+        <section id="EnviarEmail">
+            <textarea name="" id="mensagem_area" cols="30" rows="15" placeholder="Digite uma mensagem ..."></textarea>
+        </section>
+        <section id="EnviarWpp">
+                <input type="text" placeholder="Seu telefone: " />
+                <textarea name="" id="mensagem_area" cols="30" rows="15" placeholder="Digite uma mensagem ..."></textarea>
+        </section>-->
+                <input name="Assunto_msg" placeholder="Assunto" />
+                <textarea name="mensagem" id="mensagem_area" cols="30" rows="15" placeholder="Digite uma mensagem ..."></textarea>
+
+                <input id="loginEcadastro" type="submit" style="background-color: #1c1c1c; width: 20%; margin-bottom: 20px;" value="Enviar por Email" />
+                <!--<i class="fas fa-paper-plane" id="comentario"></i>-->
+            }
+            <a href="#links">Voltar ao topo</a>
+            <button id="loginEcadastro" onclick="rdcNovaPagina('https://wa.me/5511959786924?text=')" style="background-color: #1c1c1c; width: 15%; margin-bottom: 20px;">Enviar por WhatsApp</button>
+        </section>
+        }
+
+        else
+        {
+            <p>@Html.ActionLink("Conecte-se", "Index") ou @Html.ActionLink("Cadastre-se", "Cadastro") para conseguir entrar em contato com o suporte.</p>
+        }
+
+    }
+</main>
+

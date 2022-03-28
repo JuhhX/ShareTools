@@ -1,0 +1,167 @@
+﻿@model Tcc2._1.Models.UsuarioModelCadastro
+
+@{
+    ViewBag.Title = "Cadastro";
+}
+
+<!DOCTYPE html>
+
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @{
+        var continuar = ViewBag.completar;
+
+        if (continuar != null)
+        {
+            <title>Complete seu Perfil</title>
+        }
+        else
+        {
+            <title>Cadastro</title>
+        }
+    }
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Staatliches&display=swap" rel="stylesheet">
+</head>
+
+@using System.Web.Optimization
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundle/js")
+<body>
+    <main style="width: 100%; height: 100%">
+        <section id="cadastro" class="section_login" style="text-align: center; height: 100%">
+            <i class="fas fa-times" style="position: absolute; margin-right: 10px; cursor: pointer; font-size: 40px; color: #1c1c1c; right: 12%; top: 3%;" data-section="#fundo_escuro" data-section2="#cadastro" onclick="irParaPagina('/Home/Index')"></i>
+            <br />
+            @if (continuar == null)
+            {
+                using (Html.BeginForm("CadastrarUsuario", "Home", new { redirect_ = ViewBag.Redirect, ferramentaID_ = ViewBag.Ferramenta_ID }, FormMethod.Post, new { @class = "cadastro_form", enctype = "multipart/form-data" }))
+                {
+                    <h2>Cadastro</h2>
+                    <p>(*) Obrigatório</p>
+                    @Html.ActionLink("Ja tenho uma conta", "Index")<br />
+
+                    <label id="cadastro_label" for="Imagem">Imagem:</label><br />
+                    @Html.TextBoxFor(model => model.ImagemPerfil, new { type = "file", accept = "image/", @id = "Imagem", @class = "cadastro_input" })<br />
+
+                    <label id="cadastro_label" for="Nome">* Nome:</label><br />
+                    @Html.EditorFor(model => model.nome_usuario, new { htmlAttributes = new { @class = "cadastro_input", @id = "Nome" } })<br />
+                    @Html.ValidationMessageFor(model => model.nome_usuario, "", new { @class = "ValidationError" })<br />
+
+                    <label id="cadastro_label" for="Sobrenome">Sobrenome:</label><br />
+                    @Html.EditorFor(model => model.sobrenome_usuario, new { htmlAttributes = new { @class = "cadastro_input", @id = "Sobrenome" } })<br />
+
+                    <label id="cadastro_label" for="cpf">* CPF:</label><br />
+                    @Html.EditorFor(model => model.cpf_usuario, new { htmlAttributes = new { @class = "cadastro_input", @id = "cpf" } })<br />
+                    @Html.ValidationMessageFor(model => model.cpf_usuario, "", new { @class = "ValidationError" })<br />
+
+
+                    <!--<label id="cadastro_label" for="data_nascimento">Data de nascimento:</label><br />
+            Html.EditorFor(model => model.data_nascimento_usuario, new { htmlAttributes = new { class = "cadastro_input", id = "data_nascimento", type = "date" } })<br />-->
+
+                    <label id="cadastro_label" for="email">* Email:</label><br />
+                    @Html.EditorFor(model => model.email_usuario, new { htmlAttributes = new { @class = "cadastro_input", @id = "email", type = "email" } })<br />
+                    @Html.ValidationMessageFor(model => model.email_usuario, "", new { @class = "ValidationError" })<br />
+
+                    <label id="cadastro_label" for="telefone">Telefone:</label><br />
+                    @Html.EditorFor(model => model.telefone_usuario, new { htmlAttributes = new { @class = "cadastro_input", @id = "telefone" } })<br />
+
+                    <label id="cadastro_label" for="senha">* Senha:</label><br />
+                    @Html.EditorFor(model => model.senha, new { htmlAttributes = new { @class = "cadastro_input", @id = "senha", type = "password" } })<br />
+                    @Html.ValidationMessageFor(model => model.senha, "", new { @class = "ValidationError" })<br />
+
+                    <label id="cadastro_label" for="csenha">* Confirme a senha:</label><br />
+                    @Html.EditorFor(model => model.confirmar_senha, new { htmlAttributes = new { @class = "cadastro_input", @id = "csenha", type = "password" } })<br />
+                    @Html.ValidationMessageFor(model => model.confirmar_senha, "", new { @class = "ValidationError" })<br />
+
+                    <label id="cadastro_label" for="rua">* Rua:</label><br />
+                    @Html.EditorFor(model => model.Rua, new { htmlAttributes = new { @class = "cadastro_input", @id = "rua" } })<br />
+                    @Html.ValidationMessageFor(model => model.Rua, "", new { @class = "ValidationError" })<br />
+
+                    <label id="cadastro_label" for="bairro">* Bairro:</label><br />
+                    @Html.EditorFor(model => model.Bairro, new { htmlAttributes = new { @class = "cadastro_input", @id = "bairro" } })<br />
+                    @Html.ValidationMessageFor(model => model.Bairro, "", new { @class = "ValidationError" })<br />
+
+                    <label id="cadastro_label" for="cidade">* Cidade:</label><br />
+                    @Html.EditorFor(model => model.Cidade, new { htmlAttributes = new { @class = "cadastro_input", @id = "cidade" } })<br />
+                    @Html.ValidationMessageFor(model => model.Cidade, "", new { @class = "ValidationError" })<br />
+
+                    <label id="cadastro_label" for="uf">* UF:</label><br />
+                    @Html.EditorFor(model => model.Estado, new { htmlAttributes = new { @class = "cadastro_input", @id = "uf" } })<br />
+                    @Html.ValidationMessageFor(model => model.Estado, "", new { @class = "ValidationError" })<br />
+
+                    <label id="cadastro_label" for="num">* Número da casa: </label><br />
+                    @Html.EditorFor(model => model.numero_casa, new { htmlAttributes = new { @class = "cadastro_input", @id = "num" } })<br />
+                    @Html.ValidationMessageFor(model => model.numero_casa, "", new { @class = "ValidationError" })<br />
+
+                    <label id="cadastro_label" for="comp">Complemento da casa: </label><br />
+                    @Html.TextBoxFor(model => model.complemento_casa, new { type = "number", @class = "cadastro_input" })<br />
+
+
+                    <input type="checkbox" name="" id="politica" style="margin-left: 15px; margin-top: 20px;"><label for="politica">Li e concordo com os <a href=""> Termos de Uso e Política de Privacidade.</a></label><br />
+
+                    <button type="button" value="Voltar" id="login_button" style="background-color: #363636; width: 190px; font-size: 3vmin; margin-left: 0px;" onclick="irParaPagina('/Home/Index')">Voltar</button>
+                    <input type="submit" value="Continuar" id="login_button" style="background-color: #b22222; width: 190px; font-size: 3vmin;">
+                }
+            }
+            else
+            {
+                using (Html.BeginForm("CompletarCadastro", "Home", FormMethod.Post, new { @class = "cadastro_form" }))
+                {
+                    <h2>Complete seu Perfil</h2>
+                    <label id="cadastro_label" for="Nome">Nome:</label><br />
+                    @Html.EditorFor(model => model.nome_usuario, new { htmlAttributes = new { @class = "cadastro_input", @id = "Nome" } })<br />
+
+                    <label id="cadastro_label" for="Sobrenome">Sobrenome:</label><br />
+                    @Html.EditorFor(model => model.sobrenome_usuario, new { htmlAttributes = new { @class = "cadastro_input", @id = "Sobrenome" } })<br />
+
+                    <label id="cadastro_label" for="cpf">CPF:</label><br />
+                    @Html.EditorFor(model => model.cpf_usuario, new { htmlAttributes = new { @class = "cadastro_input", @id = "cpf" } })<br />
+
+                    <!--<label id="cadastro_label" for="data_nascimento">Data de nascimento:</label><br />
+            Html.EditorFor(model => model.data_nascimento_usuario, new { htmlAttributes = new { class = "cadastro_input", id = "data_nascimento", type = "date" } })<br />-->
+
+                    @Html.HiddenFor(model => model.senha, new { htmlAttributes = new { @class = "cadastro_input", @id = "senha", type = "password" } })
+
+                    @Html.HiddenFor(model => model.confirmar_senha, new { htmlAttributes = new { @class = "cadastro_input", @id = "csenha", type = "password" } })
+
+                    @Html.HiddenFor(model => model.email_usuario, new { htmlAttributes = new { @class = "cadastro_input", @id = "email", type = "email" } })
+
+                    <label id="cadastro_label" for="telefone">Telefone:</label><br />
+                    @Html.EditorFor(model => model.telefone_usuario, new { htmlAttributes = new { @class = "cadastro_input", @id = "telefone" } })<br />
+
+                    <label id="cadastro_label" for="rua">* Rua:</label><br />
+                    @Html.EditorFor(model => model.Rua, new { htmlAttributes = new { @class = "cadastro_input", @id = "rua" } })<br />
+
+                    <label id="cadastro_label" for="bairro">* Bairro:</label><br />
+                    @Html.EditorFor(model => model.Bairro, new { htmlAttributes = new { @class = "cadastro_input", @id = "bairro" } })<br />
+
+                    <label id="cadastro_label" for="cidade">* Cidade:</label><br />
+                    @Html.EditorFor(model => model.Cidade, new { htmlAttributes = new { @class = "cadastro_input", @id = "cidade" } })<br />
+
+                    <label id="cadastro_label" for="uf">* UF:</label><br />
+                    @Html.EditorFor(model => model.Estado, new { htmlAttributes = new { @class = "cadastro_input", @id = "uf" } })<br />
+
+
+                    <input type="checkbox" name="" id="politica" style="margin-left: 15px; margin-top: 20px;"><label for="politica">Li e concordo com os <a href=""> Termos de Uso e Política de Privacidade.</a></label><br />
+
+                    if (ViewBag.Redirect == null)
+                    {
+                        <button type="button" value="Voltar" id="login_button" style="background-color: #363636; width: 190px; margin-left: 0px;" onclick="irParaPagina('/Home/Principal')">Mais tarde ...</button>
+                    }
+                    else
+                    {
+                        @Html.Raw("<button type=\"button\" value=\"Voltar\" id=\"login_button\" style=\"background-color: #363636; width: 190px; margin-left: 0px;\" onclick=\"irParaPagina('/Home/" + ViewBag.Redirect + "')\">Mais tarde ...</button>")
+
+                    }
+                    <input type="submit" value="Completar" id="login_button" style="background-color: #b22222; width: 190px;">
+                }
+            }
+        </section>
+
+    </main>
+</body>
+</html>

@@ -1,0 +1,247 @@
+﻿@{
+    ViewBag.Title = "Perfil";
+    Layout = "~/Views/_LayoutPage.cshtml";
+}
+
+@model Tcc2._1.Models.UsuarioModelCadastro
+@using Tcc2._1.Models
+
+@using Tcc2._1.DAL
+@using System.Security.Claims
+
+<main id="conteudo_principal">
+    <br><br>
+    <div id="perfil_info" style="display: flex;">
+        <div id="infos_pessoais" style="width: 80%; display: flex;">
+            @{
+                ToolsContext context = new ToolsContext();
+                //Pega o user autenticado
+                var usuarioAutenticado = (ClaimsIdentity)User.Identity;
+                if (usuarioAutenticado.IsAuthenticated)
+                {
+                    //Checa os Claims de usuarioAutenticado Onde o tipo de Claim é igual ao Sid, pega o primeiro que encontrar e pega seu valor
+                    var id = Convert.ToInt32(usuarioAutenticado.Claims.Where(c => c.Type == ClaimTypes.Sid).FirstOrDefault().Value);
+                    var usuario = context.Usuario.Find(id);
+
+                    if (usuario.ImagemPerfil != null)
+                    {
+                        var base64 = Convert.ToBase64String(usuario.ImagemPerfil);
+                        var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+
+                        <div id="infos_div" style="width: 30%">
+                            @Html.Raw("<img src=\""+imgSrc+"\" style=\"width: 100%\" />")
+                        </div>
+                    }
+                    else
+                    {
+                        <div id="infos_div" style="width: 30%">
+                            <img src="~/Content/imagens/logo1.png" style="width: 100%; filter: invert();" alt="">
+                        </div>
+                    }
+
+                    <div id="infos_div" style="border-left: 2px solid #dcdcdc; text-align: center; width: 60%;">
+                        @{
+                            var cadastro_completo = ViewBag.cadastro_completo;
+
+                            if (cadastro_completo == false)
+                            {
+                                @Html.Raw("<p style=\"color: #FF0000\">POR FAVOR, COMPLETE SUAS INFORMAÇÕES DE PERFIL !!!</p>")
+
+                            }
+                        }
+
+
+                        @Html.Raw("<p> Nome de Usuário: " + usuario.nome_User + "</p>")
+                        @Html.Raw("<p> ID: " + usuario.UserID + "</p>")
+                        @Html.Raw("<p> Email: " + usuario.email_User + "</p>")
+                    </div>
+                }
+
+
+            }
+        </div>
+        <div id="buttons_perfil" style="color: #dcdcdc; font-size: 8vmin; text-align: right;">
+            <i class="fas fa-cog" id="configs" data-section="#fundo_escuro" data-section2="#alterar_perfil_info" onclick="abrir_fundo(this)" style="cursor: pointer;"></i>
+            <i class="fas fa-sliders-h" id="configs" onclick="" style="cursor: pointer;"></i><br>
+            <i class="fas fa-sign-out-alt" id="configs" onclick="irParaPagina('/Home/LogOut')" style="cursor: pointer;"></i>
+            <i class="fas fa-trash" id="configs" style="cursor: pointer;" onclick="irParaPagina('/Home/ApagarConta')"></i>
+        </div>
+    </div>
+    <hr>
+
+    <div id="minhas_ferramentas" style="text-align: left; margin-left: 10%">
+        <i class="fas fa-sort-up" id="show_button" data-div="#minhas_ferramentas_container" onclick="openDiv(this)"></i>
+        <h1 style="margin-left: 100px; font-size: 3vmin">Minhas ferramentas</h1>
+        <div id="minhas_ferramentas_container" class="div_container">
+            <ul style="list-style: none; padding: 20px; display: flex; justify-content: space-around;">
+                @{
+                    var minhas_ferramentas = ViewBag.minhas_ferramentas;
+                    var cont = 0;
+
+                    if (minhas_ferramentas != null)
+                    {
+                        if (minhas_ferramentas.Count > 0)
+                        {
+                            foreach (Ferramenta item in minhas_ferramentas)
+                            {
+                                if(cont < 4)
+                                {
+                                    if (item.ImagemFerramenta != null)
+                                    {
+                                        var base64 = Convert.ToBase64String(item.ImagemFerramenta);
+                                        var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+
+                                        @Html.Raw("<li id=\"li_sugestions\" style=\"cursor: pointer; padding: 20px; font-size: 3vmin\" onclick=\"irParaPagina('/Home/Item?ferramentaID=" + item.FerramentaID + "')\"><img src=\" " + imgSrc + "\" id=\"image_sugestion\" alt=\"Imagem\" srcset=\"\"><br><label for=\"image_sugestion\" style=\"cursor: pointer;\">" + item.NomeFerramenta + " <br /> " + item.ValorFerramenta.ToString("C") + "</label></li>")
+                                    }
+                                    else
+                                    {
+                                        @Html.Raw("<li id=\"li_sugestions\" style=\"cursor: pointer; padding: 20px; font-size: 3vmin\" onclick=\"irParaPagina('/Home/Item?ferramentaID=" + item.FerramentaID + "')\"><img src=\"/Content/imagens/item1.jpg\" id=\"image_sugestion\" alt=\"Imagem\" srcset=\"\"><br><label for=\"image_sugestion\" style=\"cursor: pointer;\">" + item.NomeFerramenta + " <br /> " + item.ValorFerramenta.ToString("C") + "</label></li>")
+                                    }
+                                }
+                                cont++;
+                            }
+                        }
+                        else
+                        {
+                            @Html.Raw("<p>Nenhum item encontrado :'(</p>")
+                        }
+                    }
+                }
+            </ul>
+            <label for="item_ver" id="label_item_ver" onclick="irParaPagina('/Home/MinhasFerramentas')" style="margin-left: 100px;">Ver todas ...</label><i class="fas fa-arrow-right" id="item_ver"></i>
+        </div>
+    </div>
+    <hr>
+
+    <div id="Minhas_compras_anteriores" style="text-align: left; margin-left: 10%">
+        <i class="fas fa-sort-up" id="show_button" data-div="#compras_anteriores" onclick="openDiv(this)"></i>
+        <h1 style="margin-left: 100px; font-size: 3vmin">Minhas compras anteriores</h1>
+        <div id="compras_anteriores" class="div_container">
+            <ul style="list-style: none; padding: 20px; display: block; justify-content: space-around;">
+                @{
+                    var minhas_compras = ViewBag.minhas_compras_anteriores;
+                    if (minhas_compras != null)
+                    {
+                        if (minhas_compras.Count > 0)
+                        {
+                            foreach (Compras item_compra in minhas_compras)
+                            {
+                                //Onclick redirecionará para página: minhas compras
+
+                                @Html.Raw("<li id=\"li_sugestions\" style=\"cursor: pointer; padding: 20px; border: 2px solid #b22222; margin-top: 2%; font-size: 3vmin\" onclick=\"\"><p>ID da compra: " + item_compra.pedidosID + " <br />Valor da compra: " + item_compra.valorCompra.ToString("C") + "<br />Data da compra: " + item_compra.Data_Compra + "</p></li>")
+                            }
+                        }
+                        else
+                        {
+                            @Html.Raw("<p>Você ainda não fez compras'(</p>")
+                        }
+                    }
+                    else
+                    {
+                        @Html.Raw("<p>Você ainda não fez compras'(</p>")
+                    }
+                }
+            </ul>
+            <label for="item_ver" id="label_item_ver" style="margin-left: 100px;">Ver todas ...</label><i class="fas fa-arrow-right" id="item_ver"></i>
+        </div>
+    </div>
+
+    <hr>
+    <button type="button" id="loginEcadastro" style="background-color: #b22222; height: 10%; width: 20%;" onclick="irParaPagina('/Home/Principal')" value="Voltar ao inicio">Voltar ao inicio</button>
+    @{          
+        if (usuarioAutenticado.IsAuthenticated)
+        {
+            var id = Convert.ToInt32(usuarioAutenticado.Claims.Where(c => c.Type == ClaimTypes.Sid).FirstOrDefault().Value);
+            var usuario = context.Usuario.Find(id);
+
+            if (usuario.tipo.ToString().Equals("ADMINISTRADOR"))
+            {
+                    @Html.Raw("<button type=\"button\" id=\"loginEcadastro\" style=\"background-color: #363636; height: 10%; width: 20%;\" data-section=\"#fundo_escuro\" data-section2=\"#cadastro\" onclick=\"abrir_fundo(this)\" value=\"Cadastrar ADM\">Cadastrar Adm</button>")
+            }
+        }
+
+
+}
+    <button type="button" id="loginEcadastro" style="background-color: #363636; height: 10%; width: 20%;" data-section="#fundo_escuro" data-section2="#adicionar_ferramenta" onclick="irParaPagina('/Home/MinhasFerramentas')">Adicionar ferramenta</button>
+</main>
+
+<section id="fundo_escuro" style="display: none;">
+    <section id="cadastro" class="section_login" style="display: none; text-align: center;">
+        @using (Html.BeginForm("CadastrarADM", "Home", FormMethod.Post, new { @class = "cadastro_form", style="margin-left: 0px; margin-right: 0px" }))
+        {
+            <i class="fas fa-times" style="position: absolute; margin-right: 10px; cursor: pointer; font-size: 40px; color: #1c1c1c; right: 12%; top: 3%;" data-section="#fundo_escuro" data-section2="#cadastro" onclick="abrir_fundo(this)"></i>
+            <br /><br />
+            @Html.AntiForgeryToken()
+            <h2>Cadastrar Administrador</h2>
+
+            <label id="cadastro_label" for="email">* Email:</label><br />
+            <input type="email" class="cadastro_input" name="Email" id="email" placeholder="E-mail"><br />
+
+            <label id="cadastro_label" for="senha">* Senha:</label><br />
+            <input type="password" class="cadastro_input" name="Senha" id="senha" placeholder="Senha"> <br />
+
+            <label id="cadastro_label" for="csenha">* Confirme a senha:</label><br />
+            <input type="password" class="cadastro_input" name="CSenha" id="csenha" placeholder="Confirmar senha"> <br />
+
+            
+            <button type="button" value="Voltar" id="login_button" style="background-color: #363636; width: 190px; margin-left: 0px;" data-section="#fundo_escuro" data-section2="#cadastro" onclick="abrir_fundo(this)">Voltar</button>
+            <input type="submit" value="Continuar" id="login_button" style="background-color: #b22222; width: 190px;" onclick="checarCampos()">
+        }
+    </section>
+
+    <section id="alterar_perfil_info" class="section_login" style="display: none; text-align: center;">
+        @using (Html.BeginForm("AlterarInfos", "Home", FormMethod.Post, new { @class = "alterarInfo", enctype = "multipart/form-data" }))
+        {
+            <i class="fas fa-times" style="position: absolute; margin-right: 10px; cursor: pointer; font-size: 40px; color: #1c1c1c; right: 12%; top: 3%;" data-section="#fundo_escuro" data-section2="#cadastro" onclick="abrir_fundo(this)"></i>
+            <br /><br />
+            <h1 style="font-size: 30px;">Alterar informações da conta</h1>
+            <p>* Somente altere dados que deseja atualizar *</p>
+
+            @Html.AntiForgeryToken();
+
+            <label id="cadastro_label" for="Imagem">Imagem:</label><br />
+            @Html.TextBoxFor(model => model.ImagemPerfil, new { type = "file", accept = "image/", @id = "Imagem", @class = "cadastro_input" })<br />
+
+            <label id="cadastro_label" for="Nome">Nome:</label><br />
+            @Html.EditorFor(model => model.nome_usuario, new { htmlAttributes = new { @class = "cadastro_input", @id = "Nome" } })<br />
+
+            <label id="cadastro_label" for="Sobrenome">Sobrenome:</label><br />
+            @Html.EditorFor(model => model.sobrenome_usuario, new { htmlAttributes = new { @class = "cadastro_input", @id = "Sobrenome" } })<br />
+
+            <label id="cadastro_label" for="email">Email:</label><br />
+            @Html.EditorFor(model => model.email_usuario, new { htmlAttributes = new { @class = "cadastro_input", @id = "email", type = "email" } })<br />
+
+            <label id="cadastro_label" for="telefone">Telefone:</label><br />
+            @Html.EditorFor(model => model.telefone_usuario, new { htmlAttributes = new { @class = "cadastro_input", @id = "telefone" } })<br />
+
+            <label id="cadastro_label" for="senha">Senha:</label><br />
+            @Html.EditorFor(model => model.senha, new { htmlAttributes = new { @class = "cadastro_input", @id = "senha", type = "password", placeholder = "Somente digite a senha se desejar alterá-la!" } })<br />
+
+            <label id="cadastro_label" for="csenha">Confirme a senha:</label><br />
+            @Html.EditorFor(model => model.confirmar_senha, new { htmlAttributes = new { @class = "cadastro_input", @id = "csenha", type = "password", placeholder = "Somente confirme a senha se desejar alterá-la!" } })<br />
+
+            <label id="cadastro_label" for="rua">Rua:</label><br />
+            @Html.EditorFor(model => model.Rua, new { htmlAttributes = new { @class = "cadastro_input", @id = "rua" } })<br />
+
+            <label id="cadastro_label" for="bairro">Bairro:</label><br />
+            @Html.EditorFor(model => model.Bairro, new { htmlAttributes = new { @class = "cadastro_input", @id = "bairro" } })<br />
+
+            <label id="cadastro_label" for="cidade">Cidade:</label><br />
+            @Html.EditorFor(model => model.Cidade, new { htmlAttributes = new { @class = "cadastro_input", @id = "cidade" } })<br />
+
+            <label id="cadastro_label" for="uf">UF:</label><br />
+            @Html.EditorFor(model => model.Estado, new { htmlAttributes = new { @class = "cadastro_input", @id = "uf" } })<br />
+
+            <label id="cadastro_label" for="num">Número da casa: </label><br />
+            @Html.EditorFor(model => model.numero_casa, new { htmlAttributes = new { @class = "cadastro_input", @id = "num" } })<br />
+
+            <label id="cadastro_label" for="comp">Complemento da casa: </label><br />
+            @Html.EditorFor(model => model.complemento_casa, new { htmlAttributes = new { @class = "cadastro_input", @id = "comp" } })<br />
+
+            <button type="button" value="Voltar" id="login_button" style="background-color: #363636; width: 190px; margin-left: 0px;" data-section="#fundo_escuro" data-section2="#alterar_perfil_info" onclick="abrir_fundo(this)">Voltar</button>
+            <input type="submit" value="Continuar" id="login_button" style="background-color: #b22222; width: 190px;" onclick="alertar('Alterado com sucesso!')">
+
+        }
+    </section>
+    </section>
+

@@ -1,0 +1,93 @@
+﻿
+@{
+    ViewBag.Title = "Perfil_Cliente";
+    Layout = "~/Views/_LayoutPage.cshtml";
+}
+
+@using Tcc2._1.Models
+
+@using Tcc2._1.DAL
+@using System.Security.Claims
+
+<main id="conteudo_principal">
+    <br><br>
+    <div id="perfil_info" style="display: flex;">
+        <div id="infos_pessoais" style="width: 80%; display: flex;">
+            @{
+                Usuario cliente_ = ViewBag.cliente_;
+                List<Ferramenta> ferramentas_cliente = ViewBag.ferramentas_cliente;
+
+                if (cliente_ != null)
+                {
+                    if (cliente_.ImagemPerfil != null)
+                    {
+                        var base64 = Convert.ToBase64String(cliente_.ImagemPerfil);
+                        var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+
+                        <div id="infos_div" style="width: 30%">
+                            @Html.Raw("<img src=\"" + imgSrc + "\" style=\"width: 100%\" />")
+                        </div>
+                    }
+                    else
+                    {
+                        <div id="infos_div" style="width: 30%">
+                            <img src="~/Content/imagens/logo1.png" style="width: 100%; filter: invert();" alt="">
+                        </div>
+                    }
+                }
+
+                <div id="infos_div" style="border-left: 2px solid #dcdcdc; text-align: center; width: 60%;">
+                    @Html.Raw("<p> Nome de Usuário: " + cliente_.nome_User + "</p>")
+                    @Html.Raw("<p> ID: " + cliente_.UserID + "</p>")
+                    @Html.Raw("<p> Email: " + cliente_.email_User + "</p>")
+                    @if (ferramentas_cliente != null)
+                    {
+                        @Html.Raw("<p> Ferramentas cadastradas: " + ferramentas_cliente.Count + " </p>")
+                    }
+                </div>
+            }
+        </div>
+        <div id="buttons_perfil" style="color: #dcdcdc; font-size: 8vmin; text-align: right;">
+            <!--Icones de ver ferramentas e salvar contatos-->
+        </div>
+    </div>
+    <hr>
+    <div id="minhas_ferramentas" style="text-align: left; margin-left: 10%">
+        <i class="fas fa-sort-up" id="show_button" data-div="#minhas_ferramentas_container" onclick="openDiv(this)"></i>
+        <h1 style="margin-left: 100px; font-size: 3vmin">Ferramentas do usuário</h1>
+        <div id="minhas_ferramentas_container" class="div_container">
+            <ul id="lista_produtos">
+                @{
+                    //Primeiro preciso checar se é nulo para depois ver o comprimento e não ao contrário
+                    if (ferramentas_cliente != null)
+                    {
+                        if (ferramentas_cliente.Count > 0)
+                        {
+
+                            foreach (Ferramenta item in ferramentas_cliente)
+                            {
+                                if (item.ImagemFerramenta != null)
+                                {
+                                    var base64 = Convert.ToBase64String(item.ImagemFerramenta);
+                                    var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+
+                                    @Html.Raw("<li id=\"item\" onclick=\"irParaPagina('/Home/Item?ferramentaID=" + item.FerramentaID + "')\"><img src=\"" + imgSrc + "\" id=\"item\" alt=\"Imagem\" srcset=\"\"><label for=\"item\" id=\"item\">" + item.NomeFerramenta + " por " + item.ValorFerramenta.ToString("C") + "</label><label for=\"item_ver\" id=\"label_item_ver\">Ver mais ...</label>" +
+                                                     "<i class=\"fas fa-arrow-right\" id=\"item_ver\"></i></li>")
+                                }
+                                else
+                                {
+                                    @Html.Raw("<li id=\"item\" onclick=\"irParaPagina('/Home/Item?ferramentaID=" + item.FerramentaID + "')\"><img src=\"/Content/imagens/item1.jpg\" id=\"item\" alt=\"Imagem\" srcset=\"\"><label for=\"item\" id=\"item\">" + item.NomeFerramenta + " por " + item.ValorFerramenta.ToString("C") + "</label><label for=\"item_ver\" id=\"label_item_ver\">Ver mais ...</label>" +
+                                                     "<i class=\"fas fa-arrow-right\" id=\"item_ver\"></i></li>")
+                                }
+                            }
+                        }
+                        else
+                        {
+                            @Html.Raw("<p>Este usúario ainda não adicionou uma ferramenta</p>")
+                        }
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+</main>

@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewBag.Title = "Pedidos";
+    Layout = "~/Views/_LayoutPage.cshtml";
+}
+
+@using Tcc2._1.Models
+
+<main id="conteudo_principal">
+
+    <br />
+    <h1 style="text-align: left; margin-left: 10%; font-size: 3vmin;">Meus pedidos</h1>
+    <hr />
+
+    <ul id="lista_de_pedidos">
+        @{
+            List<ModeloPedidos> pedidos = ViewBag.ModeloPedidos;
+
+            if (pedidos != null)
+            {
+                if (pedidos.Count > 0)
+                {
+                    foreach (ModeloPedidos item in pedidos)
+                    {
+                        @Html.Raw("<li id=\"Pedido\">" +
+                         "<div style=\"width: 50%; text-align: left\">Número do Pedido: " + item.numero_pedido + "<br /> Nome do comprador: " + item.nome_comprador + " <br />Ferrmanta: " + item.nome_ferramenta + " <br /> Quantidade da ferramenta: " + item.quantidade_ferramenta +
+                         " <br />Valor da compra: " + item.valor_compra.ToString("C") + "<br />Parcelas da compra: " + item.parcelas + "<br />Forma de pagamento: " + item.forma_pagamento.ToString() + "</div>" +
+                         "<div style=\"width: 50%\"><button>Enviar Ferramenta</button></div>" +
+                         "</li>");
+
+                        <!--Botões removidos-->
+                        <!--<button>Aceitar Pedido</button><br /><button style=\"background-color: #1c1c1c\" onclick=\"irParaPagina('/Home/RecusarPedido?ID_Pedido="+item.numero_pedido+"')\">Recusar Pedido</button>-->
+                    }
+                }
+                else
+                {
+                    @Html.Raw("<p>Ainda não foram feitos pedidos</p>")
+                }
+            }
+            else
+            {
+                @Html.Raw("<p>Ainda não foram feitos pedidos</p>")
+            }
+        }
+    </ul>
+
+</main>
+

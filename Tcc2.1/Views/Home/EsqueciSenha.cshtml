@@ -1,0 +1,119 @@
+﻿@model Tcc2._1.Models.AlterarSenhaModel
+
+<!DOCTYPE html>
+
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Esqueci minha Senha</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Staatliches&display=swap" rel="stylesheet">
+</head>
+
+@using System.Web.Optimization
+@Styles.Render("~/Content/css");
+@Scripts.Render("~/bundle/js");
+
+<body>
+    <section id="fundo">
+        <button id="voltarBtn" onclick="irParaPagina('/Home/Index')">Voltar</button>
+        <main id="Recuperar">
+            <br />
+            <section id="main">
+                <h1>Esqueci a Senha</h1>
+                <hr>
+
+                @if (ViewBag.Metho == null)
+                {
+                    <p>Como deseja recuperar a senha?</p>
+                    <select style="font-size: 3vmin; width: 50%" onchange="alterarMetodo(this)">
+                        <option value="E">Enviar por E-mail</option>
+                        <option value="W">Enviar por WhatsApp</option>
+                    </select>
+
+                    <hr style="margin-top: 3%">
+                    <section id="EmailMetodo" style="display: block">
+                        @using (@Html.BeginForm("RSenha", "Home", null, FormMethod.Post))
+                        {
+                            <!--Email deve ser único-->
+                            <label for="RedefEmail" style="font-size: 3vmin">Insira o E-mail: </label><br />
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { placeholder = "E-mail da conta" } })<br />
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "ValidationError" })<br />
+
+                            <input type="submit" style="margin-top: 2%" value="OK" /><br />
+
+                        }
+                    </section>
+                    <section id="WppMetodo" style="display: none">
+                        @using (@Html.BeginForm("RSenhaW", "Home", null, FormMethod.Post))
+                        {
+                            <label for="RedefEmailWpp" style="font-size: 3vmin">Insira o E-mail: </label><br />
+                            @Html.EditorFor(model => model.EmailWpp, new { htmlAttributes = new { placeholder = "E-mail da conta" } })<br />
+                            @Html.ValidationMessageFor(model => model.EmailWpp, "", new { @class = "ValidationError" })<br />
+
+                            <label for="nWpp" style="font-size: 3vmin">Insira o número de WhatsApp: </label><br />
+                            @Html.EditorFor(model => model.NumeroWpp, new { htmlAttributes = new { placeholder = "Número de WhatsApp" } })<br />
+                            @Html.ValidationMessageFor(model => model.NumeroWpp, "", new { @class = "ValidationError" })<br />
+                            <input type="submit" style="margin-top: 2%" />
+                        }
+                    </section>
+                    <hr style="margin-top: 2%; margin-bottom: 2%" />
+                    if (ViewBag.OpenInserir != null)
+                    {
+                        if (ViewBag.OpenInserir)
+                        {
+                            using (Html.BeginForm("CompararCod", "Home", null, FormMethod.Post))
+                            {
+                                <section id="InserirCod" style="display: block">
+                                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { type = "hidden" } })
+                                    @Html.EditorFor(model => model.CodEnviado, new { htmlAttributes = new { type = "hidden" } })
+                                    @Html.EditorFor(model => model.EmailWpp, new { htmlAttributes = new { type = "hidden" } })
+                                    @Html.EditorFor(model => model.NumeroWpp, new { htmlAttributes = new { type = "hidden" } })
+                                    <label for="Cod" style="font-size: 3vmin">Insira o Código enviado: </label><br />
+                                    @Html.EditorFor(model => model.CodInserido, new { htmlAttributes = new { placeholder = "Código" } })<br />
+                                    @Html.ValidationMessageFor(model => model.CodInserido, "", new { @class = "ValidationError" })<br />
+                                    <input type="submit" style="margin-top: 2%" />
+                                </section>
+                            }
+                        }
+
+                    }
+                }
+                else
+                {
+            <section>
+                @if (Model.Email != null)
+                {
+                    @Html.Raw("<h1>Altere a senha para: " + Model.Email + "</h1>")
+                }
+                else if (Model.EmailWpp != null)
+                {
+                    @Html.Raw("<h1>Altere a senha para: " + Model.EmailWpp + "</h1>")
+                }
+                @using (Html.BeginForm("EnviarNovaSenha", "Home", FormMethod.Post))
+                {
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { type = "hidden" } })
+                    @Html.EditorFor(model => model.CodEnviado, new { htmlAttributes = new { type = "hidden" } })
+                    @Html.EditorFor(model => model.EmailWpp, new { htmlAttributes = new { type = "hidden" } })
+                    @Html.EditorFor(model => model.NumeroWpp, new { htmlAttributes = new { type = "hidden" } })
+                    <label for="NovaSenha" style="font-size: 3vmin">Nova Senha: </label><br />
+                    @Html.EditorFor(model => model.SenhaNova, new { htmlAttributes = new { @id = "NovaSenha", placeholder = "Senha", type = "password" } })<br />
+                    @Html.ValidationMessageFor(model => model.SenhaNova, "", new { @class = "ValidationError" })<br />
+                    <label for="ConfirmarNovaSenha" style="font-size: 3vmin">Confirmar Nova Senha: </label><br />
+                    @Html.EditorFor(model => model.ConfirmarSenhaNova, new { htmlAttributes = new { @id = "ConfirmarNovaSenha", placeholder = "Confirmar senha", type = "password" } })<br />
+                    @Html.ValidationMessageFor(model => model.ConfirmarSenhaNova, "", new { @class = "ValidationError" })<br />
+                    <input type="submit" style="margin-top: 2%" />
+                }
+            </section>
+                }
+
+
+
+
+            </section>
+        </main>
+    </section>
+</body>
+</html>

@@ -1,0 +1,95 @@
+﻿@model Tcc2._1.Models.Ferramenta
+
+@{
+    ViewBag.Title = "Principal";
+    Layout = "~/Views/_LayoutPage.cshtml";
+}
+
+@using Tcc2._1.Models
+
+<main id="conteudo_principal">
+    @using (Html.BeginForm("Pesquisar", "Home", FormMethod.Post, new { @class = "search_bar" }))
+    {
+        <label for="Pesquisar" id="label_pesquisar" style="margin-left: 3%; font-size: 3vmin;">Pesquisar: </label><input runat="server" list="ferramentas" name="pesquisa" id="Pesquisar" placeholder="Pesquisar ..." />
+        <input type="submit" value="Pesquisar" id="Principal_submit" /> <!--<i class="fas fa-search" id="icon_pesquisa"></i>-->
+        <!--<label for="Pesquisar" id="label_pesquisar" style="margin-left: 30px;">Pesquisar: </label><input runat="server" list="ferramentas" name="Pesquisar" id="Pesquisar" placeholder="Pesquisar ..."><input type="submit" value="Pesquisar" id="Principal_submit" /> <i class="fas fa-search" id="icon_pesquisa"></i>-->
+        <datalist id="ferramentas">
+            <option value="Martelo"></option>
+            <option value="Chave de fenda"></option>
+            <option value="Marreta"></option>
+            <option value="Chave de boca"></option>
+            <option value="Serrote"></option>
+        </datalist>
+    }
+    <hr>
+    <div id="div_produtos">
+        <ul id="lista_produtos">
+            @{
+                var ferramentas = ViewBag.ferramenta_pesquisada;
+
+                //Primeiro preciso checar se é nulo para depois ver o comprimento e não ao contrário
+                if (ferramentas != null)
+                {
+                    if (ferramentas.Count > 0)
+                    {
+
+                        foreach (Ferramenta item in ferramentas)
+                        {
+                            if (item.ImagemFerramenta != null)
+                            {
+                                var base64 = Convert.ToBase64String(item.ImagemFerramenta);
+                                var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+
+                                @Html.Raw("<li id=\"item\" onclick=\"irParaPagina('/Home/Item?ferramentaID=" + item.FerramentaID + "')\"><img src=\"" + imgSrc + "\" id=\"item\" alt=\"Imagem\" srcset=\"\"><label for=\"item\" id=\"item\">" + item.NomeFerramenta + " por " + item.ValorFerramenta.ToString("C") + "</label><label for=\"item_ver\" id=\"label_item_ver\">Ver mais ...</label>" +
+                                        "<i class=\"fas fa-arrow-right\" id=\"item_ver\"></i></li>")
+                            }
+                            else
+                            {
+                                @Html.Raw("<li id=\"item\" onclick=\"irParaPagina('/Home/Item?ferramentaID=" + item.FerramentaID + "')\"><img src=\"/Content/imagens/item1.jpg\" id=\"item\" alt=\"Imagem\" srcset=\"\"><label for=\"item\" id=\"item\">" + item.NomeFerramenta + " por " + item.ValorFerramenta.ToString("C") + "</label><label for=\"item_ver\" id=\"label_item_ver\">Ver mais ...</label>" +
+                                        "<i class=\"fas fa-arrow-right\" id=\"item_ver\"></i></li>")
+                            }
+                        }
+                    }
+                    else
+                    {
+                        @Html.Raw("<p>Nenhum item encontrado :'(</p>")
+                    }
+                }
+                else
+                {
+                    var ferramenta = ViewBag.ferramentas;
+
+                    if (ferramenta != null)
+                    {
+                        if (ferramenta.Count > 0)
+                        {
+                            foreach (Ferramenta item in ferramenta)
+                            {
+                                if (item.ImagemFerramenta != null)
+                                {
+                                    var base64 = Convert.ToBase64String(item.ImagemFerramenta);
+                                    var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+
+                                    @Html.Raw("<li id=\"item\" onclick=\"irParaPagina('/Home/Item?ferramentaID=" + item.FerramentaID + "')\"><img src=\"" + imgSrc + "\" id=\"item\" alt=\"Imagem\" srcset=\"\"><label for=\"item\" id=\"item\">" + item.NomeFerramenta + " por " + item.ValorFerramenta.ToString("C") + "</label><label for=\"item_ver\" id=\"label_item_ver\">Ver mais ...</label>" +
+                                            "<i class=\"fas fa-arrow-right\" id=\"item_ver\"></i></li>")
+                                }
+                                else
+                                {
+                                    @Html.Raw("<li id=\"item\" onclick=\"irParaPagina('/Home/Item?ferramentaID=" + item.FerramentaID + "')\"><img src=\"/Content/imagens/item1.jpg\" id=\"item\" alt=\"Imagem\" srcset=\"\"><label for=\"item\" id=\"item\">" + item.NomeFerramenta + " por " + item.ValorFerramenta.ToString("C") + "</label><label for=\"item_ver\" id=\"label_item_ver\">Ver mais ...</label>" +
+                                            "<i class=\"fas fa-arrow-right\" id=\"item_ver\"></i></li>")
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        @Html.Raw("<p>Não há ferramentas :'(</p>")
+                    }
+                }
+            }
+        </ul>
+    </div>
+</main>
+
+
+

@@ -1,0 +1,143 @@
+﻿@{
+    ViewBag.Title = "MinhasFerramentas";
+    Layout = "~/Views/_LayoutPage.cshtml";
+}
+
+@model Tcc2._1.Models.FerramentaCadastro
+
+@using Tcc2._1.Models
+
+<main id="conteudo_principal">
+    <br>
+    <h1 style="text-align: left; margin-left: 10%; font-size: 3vmin;">Minhas ferramentas</h1>
+    <i class="fas fa-plus-square" id="MFerramentas" data-section="#fundo_escuro" data-section2="#adicionar_ferramenta" onclick="abrir_fundo(this)"></i>
+    <hr>
+    <ul id="lista_produtos">
+        @{
+            var minhasFerramentas = ViewBag.minhas_ferramentas;
+
+            if (minhasFerramentas != null)
+            {
+                if (minhasFerramentas.Count > 0)
+                {
+                    foreach (Ferramenta item in minhasFerramentas)
+                    {
+                        if (item.ImagemFerramenta != null)
+                        {
+                            var base64 = Convert.ToBase64String(item.ImagemFerramenta);
+                            var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+
+                            @Html.Raw("<li id=\"item\"><i class=\"fas fa-cog\" id=\"item_carrinho_remover\" data-section=\"#fundo_escuro\" data-section2=\"#alterar_ferramenta\" onclick=\"irParaPagina('/Home/Item?ferramentaID=" + item.FerramentaID + "')\" " +
+                           "style=\"margin-left: 50%; font-size: 5vmin\"></i><i class=\"fas fa-minus-square\" id=\"item_carrinho_remover\" onclick=\"irParaPagina('/Home/ApagarFerramenta?ferramentaID=" + item.FerramentaID + "')\"></i><img src=\"" + imgSrc + "\"" +
+                           " id=\"item\" alt=\"Imagem\" srcset=\"\" onclick=\"irParaPagina('/Home/Item?ferramentaID="+ item.FerramentaID + "')\"><label for=\"item\" id=\"item\" onclick=\"irParaPagina('/Home/Item?ferramentaID=" + item.FerramentaID + "')\">" + item.NomeFerramenta + "<br/>por " + item.ValorFerramenta.ToString("C") + "<br/>" +
+                           "<label for=\"item_ver\" id=\"label_item_ver\" onclick=\"irParaPagina('/Home/Item?ferramentaID=" + item.FerramentaID + "')\">Ver mais ...</label><i class=\"fas fa-arrow-right\" id=\"item_ver\" onclick=\"irParaPagina('/Home/Item?ferramentaID=" + item.FerramentaID + "')\"></i></li>")
+                        }
+                        else
+                        {
+                            @Html.Raw("<li id=\"item\"><i class=\"fas fa-cog\" id=\"item_carrinho_remover\" data-section=\"#fundo_escuro\" data-section2=\"#alterar_ferramenta\" onclick=\"irParaPagina('/Home/Item?ferramentaID=" + item.FerramentaID + "')\" " +
+                           "style=\"margin-left: 50%; font-size: 5vmin\"></i><i class=\"fas fa-minus-square\" id=\"item_carrinho_remover\" onclick=\"irParaPagina('/Home/ApagarFerramenta?ferramentaID=" + item.FerramentaID + "')\"></i><img src=\"/Content/imagens/item1.jpg\"" +
+                           " id=\"item\" alt=\"Imagem\" srcset=\"\" onclick=\"irParaPagina('/Home/Item?ferramentaID=" + item.FerramentaID + "')\"><label for=\"item\" id=\"item\" onclick=\"irParaPagina('./Item.html')\">" + item.NomeFerramenta + " por " + item.ValorFerramenta.ToString("C") + "" +
+                           "<label for=\"item_ver\" id=\"label_item_ver\" onclick=\"irParaPagina('./Item.html')\">Ver mais ...</label><i class=\"fas fa-arrow-right\" id=\"item_ver\" onclick=\"irParaPagina('./Item.html')\"></i></li>")
+                        }
+
+                    }
+                }
+                else
+                {
+                    @Html.Raw("<p style=\"font-size: 3vmin;\">Você ainda não possui ferramentas. <br /> Clique no ícone <i class=\"fas fa-plus-square\"></i> para adicionar uma. </p>")
+                }
+            }
+
+
+        }
+
+
+    </ul>
+</main>
+
+<section id="fundo_escuro" style="display: none;">
+    <section id="adicionar_ferramenta" class="section_login" style="display: none;">
+        <i class="fas fa-times" style="position: absolute; margin-right: 10px; cursor: pointer; font-size: 40px; color: #1c1c1c; right: 12%; top: 3%;" data-section="#fundo_escuro" data-section2="#adicionar_ferramenta" onclick="abrir_fundo(this)"></i>
+        <h1 style="font-size: 4vmin; text-align: center;color: #b22222;">Adicionar ferramenta</h1>
+        <br>
+        @using (Html.BeginForm("AdicionarFerramenta", "Home", FormMethod.Post, new { style = "text-align: center; margin-top: 20px;", id = "cadastro_ferramenta", enctype = "multipart/form-data" }))
+        {
+
+            <label id="adicionar_ferramenta" for="Imagem">Imagem:</label><br />
+            @Html.TextBoxFor(model => model.ImagemFerramenta, new { type = "file", accept = "image/", @id = "Imagem" })<br />
+
+            <label for="adicionar_ferramenta_nome" class="adicionar_ferramenta">Nome da Ferramenta:</label><br />
+            @Html.EditorFor(model => model.NomeFerramenta, new { htmlAttributes = new { placeholder = "Nome da Ferramenta", id = "adicionar_ferramenta_nome" } })<br />
+            @Html.ValidationMessageFor(model => model.NomeFerramenta, "", new { @class = "ValidationError" })<br />
+
+            <label for="adicionar_ferramenta_valor" class="adicionar_ferramenta">Valor:</label><br />
+            @Html.EditorFor(model => model.ValorFerramenta, new { htmlAttributes = new { placeholder = "Valor da Ferramenta", id = "adicionar_ferramenta_valor" } })<br />
+            @Html.ValidationMessageFor(model => model.ValorFerramenta, "", new { @class = "ValidationError" })<br />
+
+            <label for="adicionar_ferramenta_modelo" class="adicionar_ferramenta">Modelo:</label><br />
+            @Html.EditorFor(model => model.modelo_ferramenta, new { htmlAttributes = new { placeholder = "Modelo da Ferramenta", id = "adicionar_ferramenta_modelo" } })<br />
+            @Html.ValidationMessageFor(model => model.modelo_ferramenta, "", new { @class = "ValidationError" })<br />
+
+            <label for="adicionar_ferramenta_marca" class="adicionar_ferramenta">Marca:</label><br />
+            @Html.EditorFor(model => model.marca_ferramenta, new { htmlAttributes = new { placeholder = "Marca da Ferramenta", id = "adicionar_ferramenta_marca" } })<br />
+            @Html.ValidationMessageFor(model => model.marca_ferramenta, "", new { @class = "ValidationError" })<br />
+
+            <label for="adicionar_ferramenta_cod_nacional" class="adicionar_ferramenta">Código nacional:</label><br />
+            @Html.EditorFor(model => model.cod_nacional, new { htmlAttributes = new { placeholder = "Código nacional da Ferramenta", id = "adicionar_ferramenta_cod_nacional" } })<br />
+            @Html.ValidationMessageFor(model => model.cod_nacional, "", new { @class = "ValidationError" })<br />
+
+            <label for="adicionar_ferramenta_condition" class="adicionar_ferramenta">Condição:</label><br />
+            @Html.EditorFor(model => model.utilizado, new { htmlAttributes = new { placeholder = "Condição", list = "condition", id = "adicionar_ferramenta_condition" } })<br />
+            <datalist id="condition">
+                <option value="Novo"></option>
+                <option value="Usado"></option>
+            </datalist>
+            @Html.ValidationMessageFor(model => model.utilizado, "", new { @class = "ValidationError" })<br />
+
+            <label for="adicionar_ferramenta_quantidade" class="adicionar_ferramenta">Quantidade:</label><br>
+            @Html.EditorFor(model => model.quantidade, new { htmlAttributes = new { placeholder = "Quantidade da Ferramenta", id = "adicionar_ferramenta_quantidade" } })<br />
+            @Html.ValidationMessageFor(model => model.quantidade, "", new { @class = "ValidationError" })<br />
+
+            <button type="button" value="Voltar" id="login_button" style="background-color: #363636; width: 190px; margin-left: 0px;" onclick="controleTelas(2)">Voltar</button>
+            <input type="submit" value="Cadastro" id="login_button" style="background-color: #b22222; width: 190px;">
+
+        }
+    </section>
+
+    <section id="alterar_ferramenta" class="section_login" style="display: none;">
+        <i class="fas fa-times" style="position: absolute; margin-right: 10px; cursor: pointer; font-size: 40px; color: #1c1c1c; right: 12%; top: 3%;" data-section="#fundo_escuro" data-section2="#alterar_ferramenta" onclick="abrir_fundo(this)"></i>
+        <h1 style="font-size: 35px; text-align: center;color: #b22222;">Alterar informações da ferramenta</h1>
+        <label for="input_file" style="color: #1c1c1c;"><i class="fas fa-camera" style="font-size: 80px;color: #1c1c1c; cursor: pointer; margin-top: 10px; margin-left: 30%; margin-right: 25%;"></i> Importar Imagem</label><input type="file" name="" id="input_file" style="display: none;">
+        <br>
+        @using (Html.BeginForm("AlterarInfoFerramenta", "Home", FormMethod.Post, new { style = "text-align: center; margin-top: 20px;", id = "cadastro_ferramenta" }))
+        {
+            <label for="adicionar_ferramenta_nome" class="adicionar_ferramenta">Nome da Ferramenta:</label><br />
+            @Html.EditorFor(model => model.NomeFerramenta, new { htmlAttributes = new { placeholder = "Nome da Ferramenta", id = "adicionar_ferramenta_nome" } })<br />
+
+            <label for="adicionar_ferramenta_valor" class="adicionar_ferramenta">Valor:</label><br />
+            @Html.EditorFor(model => model.ValorFerramenta, new { htmlAttributes = new { placeholder = "Valor da Ferramenta", id = "adicionar_ferramenta_valor" } })<br />
+
+            <label for="adicionar_ferramenta_modelo" class="adicionar_ferramenta">Modelo:</label><br />
+            @Html.EditorFor(model => model.modelo_ferramenta, new { htmlAttributes = new { placeholder = "Modelo da Ferramenta", id = "adicionar_ferramenta_modelo" } })<br />
+
+            <label for="adicionar_ferramenta_marca" class="adicionar_ferramenta">Marca:</label><br />
+            @Html.EditorFor(model => model.marca_ferramenta, new { htmlAttributes = new { placeholder = "Marca da Ferramenta", id = "adicionar_ferramenta_marca" } })<br />
+
+            <label for="adicionar_ferramenta_cod_nacional" class="adicionar_ferramenta">Código nacional:</label><br />
+            @Html.EditorFor(model => model.cod_nacional, new { htmlAttributes = new { placeholder = "Código nacional da Ferramenta", id = "adicionar_ferramenta_cod_nacional" } })<br />
+
+            <label for="adicionar_ferramenta_condition" class="adicionar_ferramenta">Condição:</label><br />
+            @Html.EditorFor(model => model.utilizado, new { htmlAttributes = new { placeholder = "Condição", list = "condition", id = "adicionar_ferramenta_condition" } })<br />
+            <datalist id="condition">
+                <option value="Novo"></option>
+                <option value="Usado"></option>
+            </datalist>
+
+            <label for="adicionar_ferramenta_quantidade" class="adicionar_ferramenta">Quantidade:</label><br>
+            @Html.EditorFor(model => model.quantidade, new { htmlAttributes = new { placeholder = "Quantidade da Ferramenta", id = "adicionar_ferramenta_quantidade" } })<br />
+
+            <input type="submit" value="Salvar mudanças" id="login_button" style="background-color: #b22222; width: 190px;">
+        }
+    </section>
+</section>
+

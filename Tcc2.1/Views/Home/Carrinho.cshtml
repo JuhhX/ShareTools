@@ -1,0 +1,171 @@
+﻿@model Tcc2._1.Models.CompraModel
+
+@{
+    ViewBag.Title = "Carrinho";
+    Layout = "~/Views/_LayoutPage.cshtml";
+}
+
+@using Tcc2._1.Models
+
+<main id="conteudo_principal">
+    <br>
+    <h1 style="text-align: left; margin-left: 10%; font-size: 3vmin;">Meu carrinho</h1>
+    <i class="fas fa-plus-square" id="MFerramentas" onclick="irParaPagina('/Home/Principal')"></i>
+    <hr>
+    <ul id="lista_produtos">
+        @{
+            var ferramentas_carrinho = ViewBag.MeuCarrinho;
+            List<double> ferramentas_quantidades = ViewBag.Quantidades;
+            double valor = 0;
+            var cont = 0;
+            int boleto = 1;
+            int pix = 2;
+
+            if (ferramentas_carrinho != null)
+            {
+                foreach (Ferramenta item in ferramentas_carrinho)
+                {
+                    if (item.ImagemFerramenta != null)
+                    {
+                        var base64 = Convert.ToBase64String(item.ImagemFerramenta);
+                        var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+
+                        @Html.Raw("<li id=\"item\"><i class=\"fas fa-minus-square\" id=\"item_carrinho_remover\" onclick=\"irParaPagina('/Home/RemoverDoCarrinho?ferramentaID_=" + item.FerramentaID + "')\"></i><img src=\"" + imgSrc + "\" id=\"item\" alt=\"Imagem\" srcset=\"\" onclick=\"irParaPagina('/Home/Item?ferramentaID=" + item.FerramentaID + "')\"><label for=\"item\" id=\"item\">" + item.NomeFerramenta + " por " + item.ValorFerramenta.ToString("C") + "<br />Quantidade: " + ferramentas_quantidades[cont] + " </label>" +
+                        "<label for=\"item_ver\" id=\"label_item_ver\">Ver ferramenta</label><i class=\"fas fa-arrow-right\" id=\"item_ver\"></i></li>")
+
+                    }
+                    else
+                    {
+                        @Html.Raw("<li id=\"item\"><i class=\"fas fa-minus-square\" id=\"item_carrinho_remover\" onclick=\"irParaPagina('/Home/RemoverDoCarrinho?ferramentaID_=" + item.FerramentaID + "')\"></i><img src=\"/Content/imagens/item1.jpg\" id=\"item\" alt=\"Imagem\" srcset=\"\" onclick=\"irParaPagina('/Home/Item?ferramentaID=" + item.FerramentaID + "')\"><label for=\"item\" id=\"item\">" + item.NomeFerramenta + " por " + item.ValorFerramenta.ToString("C") + "<br />Quantidade: " + ferramentas_quantidades[cont] + "</label>" +
+                        "<label for=\"item_ver\" id=\"label_item_ver\">Ver ferramenta</label><i class=\"fas fa-arrow-right\" id=\"item_ver\"></i></li>")
+                    }
+                    cont++;
+                }
+            }
+            else
+            {
+                @Html.Raw("<p>No momento você não adicionou nenhuma ferramenta ao carrinho. </p>");
+            }
+
+            if (ferramentas_carrinho != null)
+            {
+                var cont_ = 0;
+                if (ferramentas_carrinho.Count > 0)
+                {
+                    foreach (Ferramenta item in ferramentas_carrinho)
+                    {
+                        valor += (item.ValorFerramenta * ferramentas_quantidades[cont_]);
+                        cont_++;
+                    }
+
+                }
+            }
+
+
+}
+        </ul>
+</main>
+
+<section id="fundo_escuro" style="display: none;">
+    <section id="Finalizar_Compra" data-display="none" class="section_login" style="display: none;">
+        <i class="fas fa-times" style="position: absolute; margin-right: 10px; cursor: pointer; font-size: 40px; color: #1c1c1c; right: 12%; top: 3%;" data-section="#fundo_escuro" data-section2="#Finalizar_Compra" onclick="abrir_fundo(this)"></i>
+        <!--PIX = chave de segurança;
+    Cartão Crédito = cartão, nome, cdo_segurança, parcelas, cpf;
+    Cartão Débito = cartão, nome, cdo_segurança, cpf;
+    -->
+        <h2 style="text-align: center; font-size: 3vmin">Selecione a forma de pagamento</h2>
+        <select id="formas_pagamento" onchange="alterarPagamento(this)" style="font-size: 3vmin; width: 50%; margin-left: 25%; margin-right: 25%">
+            <option value="cartao_credito">Cartão de crédito</option>
+            <option value="boleto">Boleto Bancário</option>
+            <option value="pix">PIX</option>
+        </select>
+        <hr />
+        <section id="cartao_credito_selected" style="display: block; width: 50%; margin-left: 25%; margin-right: 25%">
+            @using (Html.BeginForm("FinalizarCompra", "Home", new { valor_compra = valor}, FormMethod.Post, null))
+            {
+                @Html.AntiForgeryToken()
+                <label for="numero">Número do cartão:</label><br>
+                @Html.EditorFor(model => model.num_cartao, new { htmlAttributes = new { @id = "numero" } })<br>
+                @Html.ValidationMessageFor(model => model.num_cartao, "", new { @class = "ValidationError" })<br>
+
+                <label for="nome">Nome impresso no cartão:</label><br>
+                @Html.EditorFor(model => model.nome_cartao, new { htmlAttributes = new { @id = "nome" } })<br>
+                @Html.ValidationMessageFor(model => model.nome_cartao, "", new { @class = "ValidationError" })<br>
+
+                <label for="validade">Validade:</label><br>
+                @Html.EditorFor(model => model.validade_cartao, new { htmlAttributes = new { @id = "validade", type = "date" } })<br>
+                @Html.ValidationMessageFor(model => model.validade_cartao, "", new { @class = "ValidationError" })<br>
+
+                <label for="cvv">cvv:</label><br>
+                <input type="text" id="cvv" /><br>
+                <label for="parcelas">Número de parcelas:</label><br>
+                if (ferramentas_carrinho != null)
+                {
+                    @Html.EditorFor(model => model.parcelas_compra, new { htmlAttributes = new { @id = "parcelas", type = "number", min = "1", value = "1", max = "12", onchange = "alterarParcelas(this," + valor.ToString("F") + ")" } })
+                    @Html.ValidationMessageFor(model => model.parcelas_compra, "", new { @class = "ValidationError" })<br>
+
+                    <p id="parcelado"></p>
+                    @Html.Raw("<p style=\"font-size: 3vmin;\">total: " + valor.ToString("C") + "</p>")
+                    <input type="submit" id="FinalizarCompra" style="background: #b22222; color: #fff; border: 1px solid #b22222; border-radius: 10px; cursor: pointer; font-size: 3vmin;" value="Finalizar Compra" />
+
+                }
+            }
+        </section>
+
+        <section id="boleto_selected" style="display: none; font-size: 3vmin">
+            <h1 style="margin-left: 10%; font-size: 3.5vmin">Pagamento com Boleto</h1>
+            <p style="margin-left: 10%">Imprima o código de barra clicando sobre a imagem</p>
+            <a href="~/Content/imagens/Code-128.jpg" download="Boleto.png"><img src="~/Content/imagens/Code-128.jpg" style="margin-left: 10%" /></a>
+            <p style="margin-left: 10%">Ou pague pela internet usando o código de barra</p>
+            @using (Html.BeginForm("Outras_formas_pagamento", "Home", new { valor_compra = valor, forma_pag = 1 }, FormMethod.Post, null))
+            {
+                <input type="submit" id="FinalizarCompra" style="background: #b22222; color: #fff; border: 1px solid #b22222; border-radius: 10px; cursor: pointer; font-size: 3vmin; margin-left: 10%; width:50%; padding: 1%" value="Finalizar Compra" />
+            }
+
+        </section>
+
+        <section id="pix_section" style="display: none">
+            <div id="pix_selected">
+                <h1 style="margin-left: 10%; font-size: 3.5vmin">Pagamento com PIX</h1>
+                <img src="~/Content/imagens/QR_pix.png" style="grid-column-start: 1; grid-row-start: 2; grid-row-end: 3; margin-left: 10%;" />
+                <p style="grid-column-start: 2; grid-row-start: 2; font-size: 3vmin">
+                    1. Abra o app do seu banco ou instituição financeira e entre no ambiente PIX <br />
+                    2. Escolha a opção "pagar com qr code" e escaneie o código ao lado <br />
+                    3. Confirme as informações e finalize a compra
+                </p>
+                @using (Html.BeginForm("Outras_formas_pagamento", "Home", new { valor_compra = valor, forma_pag = 2 }, FormMethod.Post, new { style= "grid-column-start: 2; grid-row-start: 3;" }))
+                {
+                    <input type="submit" style="background: #b22222; width: 50%; padding: 1%; color: #fff; border: 1px solid #b22222; border-radius: 10px; cursor: pointer; font-size: 3vmin; margin-left: 10%; grid-column-start: 2; grid-row-start: 3;" value="Finalizar Compra"  />
+                }
+
+            </div>
+        </section>
+    </section>
+</section>
+
+<section id="Valor_Finalizar">
+    <label for="show_button" style="cursor: pointer;">Compra</label><i class="fas fa-caret-down" id="show_button" data-div="#Finalizar_compra_container" style="right: 20px; font-size: 4vmin" onclick="openDiv(this, true, '160px', '20px', '280px', '200px')"></i>
+    <div id="Finalizar_compra_container" style="width: 100%; height: 80%;">
+        @{
+            if (ferramentas_carrinho != null)
+            {
+                if (ferramentas_carrinho.Count > 0)
+                {
+
+                    @Html.Raw("<p style=\"font-size: 3vmin;\">Valor da compra: " + valor.ToString("C") + "</p>")
+                    //@Html.Raw("<button id=\"FinalizarCompra\" style=\"color: #FFFFFF; text-decoration: none; font-weight: bold\" onclick=\"irParaPagina('/Home/FinalizarCompra')\">Finalizar Compra</button>")
+                    <button id="FinalizarCompra" data-section="#fundo_escuro" data-section2="#Finalizar_Compra" style="color: #FFFFFF; text-decoration: none; font-weight: bold" onclick="abrir_fundo(null, '#fundo_escuro', '#Finalizar_Compra' )">Finalizar Compra</button>
+
+                }
+                else
+                {
+                    @Html.Raw("<p style=\"font-size: 3vmin\">Você ainda não adicionou ferramentas </p>")
+                }
+            }
+            else
+            {
+                @Html.Raw("<p style=\"font-size: 3vmin\">Você ainda não adicionou ferramentas </p>")
+            }
+        }
+    </div>
+</section>

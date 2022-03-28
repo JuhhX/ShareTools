@@ -1,0 +1,195 @@
+﻿@model Tcc2._1.Models.FerramentaAlterar
+@using Tcc2._1.Models
+
+@{
+    ViewBag.Title = "Item";
+    Layout = "~/Views/_LayoutPage.cshtml";
+}
+
+<main id="conteudo_principal">
+    @using (Html.BeginForm("Pesquisar", "Home", FormMethod.Post, new { @class = "search_bar" }))
+    {
+        <label for="Pesquisar" id="label_pesquisar" style="margin-left: 3%; font-size: 3vmin;">Pesquisar: </label><input runat="server" list="ferramentas" name="pesquisa" id="Pesquisar" placeholder="Pesquisar ..." />
+        <input type="submit" value="Pesquisar" id="Principal_submit" /> <!--<i class="fas fa-search" id="icon_pesquisa"></i>-->
+        <!--<label for="Pesquisar" id="label_pesquisar" style="margin-left: 30px;">Pesquisar: </label><input runat="server" list="ferramentas" name="Pesquisar" id="Pesquisar" placeholder="Pesquisar ..."><input type="submit" value="Pesquisar" id="Principal_submit" /> <i class="fas fa-search" id="icon_pesquisa"></i>-->
+        <datalist id="ferramentas">
+            <option value="Martelo"></option>
+            <option value="Chave de fenda"></option>
+            <option value="Marreta"></option>
+            <option value="Chave de boca"></option>
+            <option value="Serrote"></option>
+        </datalist>
+    }
+    <hr>
+    <div id="div_produtos">
+        @{
+            Ferramenta ferramenta = ViewBag.Esta_Ferramenta;
+            Usuario vendedor = ViewBag.Vendedor;
+            Usuario user = ViewBag.User_atual;
+            if(user == null)
+            {
+                user = new Usuario
+                {
+                    UserID = 0,
+                    nome_User = "",
+                    sobrenome_User = "",
+                    cpf_User = "",
+                    email_User = "",
+                    senha = "",
+                    telefone_User = "",
+                    Rua = "",
+                    Bairro = "",
+                    Cidade = "",
+                    Estado = "",
+                    tipo = TipoDeUsuario.CLIENTE
+
+                };
+            }
+
+            if (ferramenta != null)
+            {
+                @Html.Raw("<h1 id=\"nome_item\">" + ferramenta.NomeFerramenta + "</h1>")
+                @Html.Raw("<p style=\"text-align: left; margin-left: 10%; font-size: 2.5vmin\">Cód. Ferramenta " + ferramenta.cod_nacional + "</p>")
+                <div id="item_container">
+                    @if (ferramenta.ImagemFerramenta != null)
+                    {
+                        var base64 = Convert.ToBase64String(ferramenta.ImagemFerramenta);
+                        var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+
+                        @Html.Raw("<img src=\""+imgSrc+"\" style=\"width: 45%; \" alt=\"\">")
+                    }
+                    else
+                    {
+                        @Html.Raw("<img src=\"/Content/imagens/item1.jpg\" style=\"width: 45%; \" alt=\"\">")
+                    }
+                    <div id="col-wrap" style="width: 50%; background-color: #1c1c1c; display: flex; border-radius: 10px; border: 1px solid #1c1c1c; color: #fff;">
+
+                        <div id="col-left" style="text-align: center; margin-left: 10px; width: 55%;">
+                            @Html.Raw("<p style=\"font-size: 3vmin\">Vendedor: " + vendedor.nome_User + "</p>")
+                            @Html.ActionLink("Cód. Vendedor: " + vendedor.UserID, "Perfil_Cliente", new { cliente_id = vendedor.UserID }, new { style = "font-size: 3vmin; color: #FFF" })
+                            @Html.Raw("<p style=\"font-size: 4vmin; \">" + ferramenta.ValorFerramenta.ToString("C") + "</p>")
+
+                            @if (user.UserID != ferramenta.VendedorID)
+                            {
+                                using (Html.BeginForm("AdicionarAoCarrinho", "Home", new { ferramentaID_ = ferramenta.FerramentaID }, FormMethod.Post, new { @class = "adicionar_carrinho" }))
+                                {
+                                    if (ferramenta.quantidade > 0)
+                                    {
+
+                                        @Html.Raw("<input type=\"number\" min=\"0\" value=\"1\" max=\"" + ferramenta.quantidade + "\" placeholder=\"Quantidade\" name=\"Quantidade_\" style=\"width: 80%; margin-left: 10%\" />")
+                                        <input type="submit" id="item_button" value="Adicionar ao carrinho" />
+                                        <input type="submit" id="item_button" value="Comprar" onclick="alertar('Vá para a página \'Meu carrinho\' e finalize a compra')" />
+
+                                    }
+                                    else
+                                    {
+                                        <button type="button" id="item_button" style="background-color: #363636; cursor: not-allowed" value="Adicionar ao carrinho">Adicionar ao carrinho</button>
+                                        <button type="button" id="item_button" style="background-color: #363636; cursor: not-allowed" value="Comprar">Comprar</button>
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                //Aba de ver pedidos
+                                <button id="item_button" onclick="irParaPagina('/Home/Pedidos')">Ver pedidos</button>
+                            }
+
+                        </div>
+
+                        <div id="col-right" style="text-align: center; width: 50%; font-size: 3vmin">
+
+
+                            @Html.Raw("<p>Modelo: " + ferramenta.modelo_ferramenta + "</p>")
+                            @Html.Raw("<p>Marca: " + ferramenta.marca_ferramenta + "</p>")
+                            @Html.Raw("<p>Condição: " + ferramenta.utilizado.ToString() + "</p>")
+
+                            @if (ferramenta.quantidade > 0)
+                            {
+                                <i class="fas fa-check" id="disponibilidade" style="cursor: pointer;"></i><label for="disponibilidade" id="disponibilidade" style="cursor: pointer;">Disponível</label><br>
+                                <i class="fas fa-heart" id="favoritar" style="cursor: pointer;"></i><label for="favoritar" id="favoritar" style="cursor: pointer;">Adicionar aos favoritos</label>
+                            }
+                            else
+                            {
+                                <i class="fas fa-times" id="disponibilidade" style="cursor: pointer;"></i><label for="disponibilidade" id="disponibilidade" style="cursor: pointer;">Indisponível</label><br>
+                                <i class="fas fa-heart" id="favoritar" style="cursor: not-allowed;"></i><label for="favoritar" id="favoritar" style="cursor: not-allowed;">Adicionar aos favoritos</label>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        @{
+
+            if (user != null)
+            {
+
+                if (user.UserID == ferramenta.VendedorID)
+                {
+                    <button type="button" id="item_button" data-section="#fundo_escuro" data-section2="#alterar_ferramenta" onclick="abrir_fundo(this)" style="margin-left: 0%">Alterar Informações da ferramenta</button>
+                }
+
+            }
+        }
+        <div id="item_outras_sugestions">
+            <h1 style="text-align: left; margin-left: 0px; font-size: 3vmin;">Comentários ...</h1>
+            <textarea name="" id="item_comentario" cols="30" rows="10" placeholder="Deixe um comentário ..."></textarea>
+            <i class="fas fa-paper-plane" id="comentario"></i>
+        </div>
+        <hr>
+        <div id="item_outras_sugestions">
+            <h1 style="text-align: left; font-size: 3vmin;">Outras sugestões ...</h1>
+            <ul style="list-style: none; padding: 20px; display: flex; justify-content: space-around;">
+                <li id="li_sugestions" style="cursor: pointer; padding: 20px;" onclick="irParaPagina('./Item.html')"><img src="../images/item1.jpg" id="image_sugestion" alt=""><br><label style="cursor: pointer;" for="image_sugestion">Produto <br>Preço</label></li>
+                <li id="li_sugestions" style="cursor: pointer; padding: 20px;" onclick="irParaPagina('./Item.html')"><img src="../images/item2.jpg" id="image_sugestion" alt=""><br><label style="cursor: pointer;" for="image_sugestion">Produto <br>Preço</label></li>
+                <li id="li_sugestions" style="cursor: pointer; padding: 20px;" onclick="irParaPagina('./Item.html')"><img src="../images/item3.png" id="image_sugestion" alt=""><br><label style="cursor: pointer;" for="image_sugestion">Produto <br>Preço</label></li>
+                <li id="li_sugestions" style="cursor: pointer; padding: 20px;" onclick="irParaPagina('./Item.html')"><img src="../images/item4.jpg" id="image_sugestion" alt=""><br><label style="cursor: pointer;" for="image_sugestion">Produto <br>Preço</label></li>
+            </ul>
+        </div>
+    </div>
+    <section id="fundo_escuro" style="display: none;">
+        <section id="alterar_ferramenta" class="section_login" style="display: none;">
+            <i class="fas fa-times" style="position: absolute; margin-right: 10px; cursor: pointer; font-size: 40px; color: #1c1c1c; right: 12%; top: 3%;" data-section="#fundo_escuro" data-section2="#alterar_ferramenta" onclick="abrir_fundo(this)"></i>
+            <h1 style="font-size: 35px; text-align: center;color: #b22222;">Alterar informações da ferramenta</h1>
+            <br>
+            @using (Html.BeginForm("AlterarFerramenta", "Home", FormMethod.Post, new { style = "text-align: center; margin-top: 20px;", id = "cadastro_ferramenta", enctype = "multipart/form-data" }))
+            {
+
+                @Html.AntiForgeryToken()
+                @Html.EditorFor(model => model.NomeAnterior, new { htmlAttributes = new { style = "display: none;" } })
+
+                <label class="adicionar_ferramenta" for="Imagem">Imagem:</label><br />
+                @Html.TextBoxFor(model => model.ImagemFerramenta, new { type = "file", accept = "image/", @id = "Imagem"})<br />
+
+                <label for="adicionar_ferramenta_nome" class="adicionar_ferramenta">Nome da Ferramenta:</label><br />
+                @Html.EditorFor(model => model.NomeFerramenta, new { htmlAttributes = new { placeholder = "Nome da Ferramenta", id = "adicionar_ferramenta_nome" } })<br />
+
+                <label for="adicionar_ferramenta_valor" class="adicionar_ferramenta">Valor:</label><br />
+                @Html.EditorFor(model => model.ValorFerramenta, new { htmlAttributes = new { placeholder = "Valor da Ferramenta", id = "adicionar_ferramenta_valor" } })<br />
+
+                <label for="adicionar_ferramenta_modelo" class="adicionar_ferramenta">Modelo:</label><br />
+                @Html.EditorFor(model => model.modelo_ferramenta, new { htmlAttributes = new { placeholder = "Modelo da Ferramenta", id = "adicionar_ferramenta_modelo" } })<br />
+
+                <label for="adicionar_ferramenta_marca" class="adicionar_ferramenta">Marca:</label><br />
+                @Html.EditorFor(model => model.marca_ferramenta, new { htmlAttributes = new { placeholder = "Marca da Ferramenta", id = "adicionar_ferramenta_marca" } })<br />
+
+                <label for="adicionar_ferramenta_cod_nacional" class="adicionar_ferramenta">Código nacional:</label><br />
+                @Html.EditorFor(model => model.cod_nacional, new { htmlAttributes = new { placeholder = "Código nacional da Ferramenta", id = "adicionar_ferramenta_cod_nacional" } })<br />
+
+                <label for="adicionar_ferramenta_condition" class="adicionar_ferramenta">Condição:</label><br />
+                @Html.EditorFor(model => model.utilizado, new { htmlAttributes = new { placeholder = "Condição", list = "condition", id = "adicionar_ferramenta_condition" } })<br />
+                <datalist id="condition">
+                    <option value="Novo"></option>
+                    <option value="Usado"></option>
+                </datalist>
+
+                <label for="adicionar_ferramenta_quantidade" class="adicionar_ferramenta">Quantidade:</label><br>
+                @Html.EditorFor(model => model.quantidade, new { htmlAttributes = new { placeholder = "Quantidade da Ferramenta", id = "adicionar_ferramenta_quantidade" } })<br />
+
+                <input type="submit" value="Salvar mudanças" id="login_button" style="background-color: #b22222; width: 190px;">
+
+            }
+        </section>
+    </section>
+</main>
+

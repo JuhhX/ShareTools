@@ -1,0 +1,76 @@
+﻿
+@{
+    ViewBag.Title = "Redirect";
+}
+
+@using System.Threading.Tasks;
+
+<!DOCTYPE html>
+
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecionando ...</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Staatliches&display=swap" rel="stylesheet">
+
+    <style>
+        div{
+            width: 100px;
+            height: 100px;
+            margin-left: 47%;
+            margin-right: 47%;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        div span {
+            width: 20px;
+            height: 20px;
+            margin-top: 40%;
+            background-color: #363636;
+            border-radius: 100px;
+            animation-name: redirect;
+            animation-duration: 1.5s;
+            animation-iteration-count: infinite;
+            box-shadow: 0px 0px 10px #4f4f4f;
+            transition: margin-top 0.5s
+        }
+
+        div :nth-child(1){
+            animation-delay: 2.4s;
+        }div :nth-child(2){
+            animation-delay: 2.8s;
+        }div :nth-child(3){
+            animation-delay: 3s;
+        }
+    </style>
+
+    @using System.Web.Optimization
+    @Styles.Render("~/Content/css")
+</head>
+<body>
+    <h1 style="text-align: center; margin-top: 10%"><color style="color: #b22222; font-size: 20vmin">SHARE</color><color style="color: #1c1c1c; margin-left: 10px; font-size: 20vmin">TOOLS</color></h1>
+    @{
+        var user = ViewBag.name_user;
+
+        if (user != null)
+        {
+            @Html.Raw("<p style=\"text-align: center; font-size: 4vmin; font-weight: bold\"> Bem vindo," + user + " Você será redirecionado para a página principal em instantes.</p>")
+        }
+        else
+        {
+            @Html.Raw("<p style=\"text-align: center; font-size: 4vmin; font-weight: bold\"> Bem vindo, Você será redirecionado para a página principal em instantes.</p>")
+        }
+
+    }
+    <!--<p style="text-align: center; font-size: 4vmin; font-weight: bold">Bem vindo, usuário. Você será redirecionado para a página principal em instantes.</p>-->
+    <div>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+</body>
+</html>

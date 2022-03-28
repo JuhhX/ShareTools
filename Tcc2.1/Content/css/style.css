@@ -1,0 +1,1046 @@
+* {
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 99%;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+section#fundo {
+    width: 100%;
+    height: 99%;
+    background-color: #dcdcdc;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+header#barra_superior {
+    height: 20%; /*Antes 13*/
+    width: 100%;
+    background-color: #1c1c1c;
+    border-bottom: 8px solid #b22222;
+    /*position estava absolute*/
+    top: 0;
+    left: 0;
+    display: flex;
+    box-sizing: border-box;
+}
+
+main#main {
+    /*Não tinha height*/
+    /*Não tinha position*/
+    width: 100%;
+    height: 60%;
+    background-color: #DCDCDC;
+    border-bottom: 5px solid #b22222;
+    box-sizing: border-box;
+}
+
+i#menu_barra_icon {
+    display: none;
+    font-size: 30px;
+    color: #b22222;
+}
+
+footer#inferior {
+    /*Não tinha height*/
+    /*Position estava absolute*/
+    width: 100%;
+    height: 39%;
+    background-color: #1c1c1c;
+    color: #fff;
+    display: block;
+    justify-content: space-around;
+}
+
+section#footer {
+    position: absolute;
+    background-color: #DCDCDC;
+    display: flex;
+    width: 100%;
+    height: 10%;
+    top: 102%;
+}
+
+h1#logo {
+    color: #FFFFFF;
+    /*font-size 30px*/
+    font-size: 7vmin;
+    position: absolute;
+    top: -10px;
+    margin-left: 20px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+li#barra_superior_div {
+    margin-right: 10px;
+    height: 87%;
+    width: 33%;
+    margin-top: 10px;
+}
+
+    li#barra_superior_div:hover {
+        border-top: 5px solid #b22222;
+        background-color: #222222;
+    }
+
+a#barra_superior_a {
+    text-decoration: none;
+    color: #ffffff;
+    /*font-size 20px*/
+    font-size: 3.5vmin;
+    /*margin-top 20px*/
+    position: absolute;
+    margin-top: 10%;
+    margin-left: -5%;
+}
+
+nav#barra_superior_nav {
+    position: relative;
+    margin-left: 30%;
+    margin-right: 30%;
+    width: 40%;
+}
+
+ul#barra_superior_nav {
+    height: 113%;
+    width: 100%;
+    left: -40px;
+    position: absolute;
+    top: -25px;
+    text-align: center;
+    justify-content: space-around;
+    display: flex;
+    list-style: none;
+}
+
+section#nav_to_mobile {
+    position: fixed;
+    display: none;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #1c1c1c;
+    text-align: center;
+    font-size: 30px;
+}
+
+section#loginEcadastro {
+    position: absolute;
+    right: 0px;
+    background-color: #222222;
+    width: 30%;
+    height: 19%;
+    display: flex;
+    justify-content: space-around;
+    border-left: 2px solid #b22222;
+}
+
+button#loginEcadastro, input#loginEcadastro {
+    /*height 35px*/
+    height: 30%;
+    width: 40%;
+    /*25px*/
+    margin-top: 10%;
+    cursor: pointer;
+    border-radius: 30px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    /*15px*/
+    font-size: 3vmin;
+    color: #ffffff;
+    border: none;
+}
+
+    button#loginEcadastro:hover, input#loginEcadastro:hover {
+        filter: brightness(120%);
+    }
+
+p#main_p {
+    color: #1c1c1c;
+    margin-top: -2%;
+    margin-left: 30%;
+    margin-right: 30%;
+    font-size: 3vmin;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+h1#main_h1 {
+    color: #1c1c1c;
+    /*150px*/
+    margin-top: 4%;
+    margin-left: 20%;
+    margin-right: 20%;
+    font-size: 10vmin;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+section#buttons_main {
+    width: 60%;
+    margin-bottom: 15px;
+    margin-top: 3%;
+    margin-left: 18%;
+    margin-right: 20%;
+    display: flex;
+    justify-content: space-around;
+}
+section#buttons_main a{
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+button#buttons_main {
+    height: 5%;
+    width: 40%;
+    margin-left: 5%;
+    margin-right: 5%;
+    cursor: pointer;
+    border-radius: 30px;
+    padding: 6px;
+    /*15px*/
+    font-size: 4vmin;
+    color: #ffffff;
+    border: none;
+}
+
+    button#buttons_main:hover {
+        filter: brightness(120%);
+    }
+
+div#inferior_div {
+    border-top: 4px solid #b22222;
+    color: #ffffff;
+    width: 20%;
+    margin-top: 4%;
+}
+
+div#inferior_div_container {
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+    display: flex;
+    justify-content: space-around;
+}
+
+p#footer_p {
+    font-size: 3vmin;
+    background-color: #1c1c1c;
+    margin-top: 2%;
+    font-weight: bold;
+}
+
+section#fundo_escuro {
+    width: 100%;
+    height: 105%;
+    background-color: #00000050;
+    /*position: absolute;*/
+    top: 0;
+    left: 0;
+    position: fixed;
+}
+
+section.section_login {
+    background-color: #ffffff;
+    border-radius: 25px;
+    width: 80%;
+    height: 90%;
+    margin-top: 1%;
+    margin-left: 10%;
+    margin-right: 10%;
+    display: flex;
+    overflow: auto;
+}
+
+h1#logoLogin {
+    font-size: 50px;
+    font-weight: bold;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+div#borda_horizontal {
+    border-left: 2px solid #b22222;
+    height: 80%;
+    margin-top: 5%;
+}
+
+section#logo {
+    width: 50%;
+    height: 100%;
+    text-align: center;
+}
+
+h1#h1_login {
+    font-size: 6vmin;
+    margin-top: 80px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+section#login_container {
+    width: 50%;
+    height: 100%;
+    text-align: center;
+}
+
+input#login_inputs {
+    border-radius: 10px;
+    border: 3px solid #b22222;
+    width: 70%;
+    height: 30px;
+    margin-left: 5%;
+    margin-top: 20px;
+}
+
+i#icon {
+    margin-left: 3%;
+    color: #708090;
+}
+
+input#login_button, button#login_button {
+    height: 35px;
+    width: 40%;
+    margin-top: 15px;
+    cursor: pointer;
+    border-radius: 30px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 15px;
+    color: #ffffff;
+    border: none;
+    margin-left: 45px;
+}
+
+    input#login_button:hover, button#login_button:hover {
+        filter: brightness(120%);
+    }
+
+a#login_a {
+    text-decoration: none;
+    color: #525252;
+    margin-top: 3%;
+}
+
+.cadastro_input {
+    width: 400px;
+    height: 30px;
+    border: 2px solid #b22222;
+    border-radius: 10px;
+}
+
+form.cadastro_form label, input{
+    font-size: 3vmin;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #c0c0c0;
+    border-radius: 10px;
+}
+/*scrollbar-thum é a barrinha q se desloca e o track a do fundo*/
+::-webkit-scrollbar-thumb {
+    background: #b22222;
+    border-radius: 10px;
+}
+
+    ::-webkit-scrollbar-thumb:hover {
+        filter: brightness(120%);
+    }
+
+section#nav_bar {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    background-color: #1c1c1c;
+    width: 20%;
+    height: 100%;
+    border-right: 8px solid #b22222;
+    transition: width 2s;
+}
+
+p.pguser {
+    font-size: 2.5vmin;
+}
+
+i#nav_bar_icon_open {
+    font-size: 5vmin;
+    color: #DCDCDC;
+    cursor: pointer;
+    position: absolute;
+    margin-left: 90%;
+    margin-top: 115%;
+    z-index: 2;
+}
+
+div#logo_nav_bar {
+    display: flex;
+    width: 100%;
+    text-align: center;
+}
+
+img#logo_nav_bar {
+    filter: invert(100%);
+    margin-top: 10px;
+    margin-left: 10px;
+    width: 20%;
+    height: 20%;
+}
+
+h1#logo_nav_bar_h1 {
+    margin-left: 10%;
+    margin-top: 30px;
+    font-size: 3vmin;
+    color: #fff;
+}
+
+@media only screen and (max-height: 656px) {
+    nav#nav_bar_links {
+        margin-top: -10px;
+        height: 60%;
+        width: 100%;
+        overflow: auto;
+    }
+    img#image_sugestion {
+        width: 50%;
+    }
+
+    section#Valor_Finalizar p {
+        margin-top: 10%
+    }
+    
+
+}
+
+@media only screen and (min-height: 657px) {
+    nav#nav_bar_links {
+        margin-top: -10px;
+        height: 60%;
+        width: 100%;
+    }
+
+    img#image_sugestion {
+        width: 100%;
+    }
+
+    section#Valor_Finalizar p{
+        margin-top: 20%
+    }
+    
+}
+
+nav#nav_bar_links li {
+    margin-top: 10%;
+}
+
+nav#nav_bar_links ul {
+    margin-left: -5%;
+}
+
+a#ANav {
+    text-decoration: none;
+    color: #fff;
+    font-size: 3vmin;
+    margin-left: 20px;
+}
+
+a#ANav:hover {
+    color: #8b0000;
+}
+
+div#div_nav_bar_icons_closed {
+    display: none;
+    position: absolute;
+    height: 100%;
+    background-color: #b22222;
+    left: 0px;
+    top: 0px;
+}
+
+i#nav_bar_icons_closed {
+    font-size: 8vmin;
+    color: #DCDCDC;
+    border: 2px solid #1c1c1c;
+    background-color: #222222;
+    padding: 10px;
+    width: 60px;
+    padding-left: 15px;
+    width: 100%;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+i#nav_bar_icons_closed:nth-child(1) {
+    margin-top: 70%;
+}
+
+i#nav_bar_icons_closed:hover {
+    filter: brightness(120%);
+    color: #8b0000;
+}
+
+main#conteudo_principal {
+    background-color: rgb(255, 255, 255);
+    /*width: 1093px;*/
+    width: 80%;
+    height: 100%;
+    margin-left: 20%;
+    text-align: center;
+}
+
+input#Pesquisar {
+    width: 70%;
+    height: 3%;
+    margin-top: 2%;
+    font-size: 3vmin;
+}
+
+i#icon_pesquisa {
+    margin-left: 10px;
+    color: #b22222;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+i#icon_pesquisa:hover {
+    color: #1c1c1c;
+    filter: brightness(120%);
+}
+
+div#div_produtos {
+    width: 100%;
+    height: 88%;
+    margin-top: 10px;
+    background-color: #ffffff;
+    overflow: auto;
+}
+
+ul#lista_produtos {
+    text-align: left;
+    margin-left: 10%;
+    list-style-type: none;
+}
+
+img#item {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+label#item {
+    cursor: pointer;
+    margin-left: 30px;
+    font-size: 2.5vmin;
+    margin-top: 25%
+}
+
+li#item {
+    width: 80%;
+    padding: 20px;
+    border-bottom: 1px solid #1c1c1c;
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+}
+
+li#item:hover {
+    background-color: #c0c0c0;
+    font-weight: bold;
+}
+
+label#label_item_ver {
+    margin-left: 20%;
+    margin-top: 25%;
+    color: #b22222;
+    font-size: 2.5vmin;
+    cursor: pointer;
+}
+
+label#label_item_ver:hover {
+    filter: brightness(120%);
+}
+
+form.adicionar_carrinho{
+    width: 100%;
+    height: 100%
+}
+
+i#item_ver {
+    font-size: 25px;
+    color: #b22222;
+    margin-top: 25%;
+    cursor: pointer;
+}
+
+h1#nome_item {
+    text-align: left;
+    margin-left: 10%;
+    font-size: 4vmin;
+}
+
+div#item_container {
+    width: 90%;
+    margin-left: 5%;
+    display: flex;
+    justify-content: space-around;
+    background-color: #dcdcdc;
+    padding: 20px;
+    border: 1px solid #1c1c1c;
+    border-radius: 10px;
+}
+
+button#item_button, input#item_button {
+    width: 80%;
+    height: 15%;
+    font-size: 2.5vmin;
+    margin-top: 10px;
+    color: #fff;
+    background-color: #b22222;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    margin-left: 10%
+}
+
+button#item_button:hover {
+    filter: brightness(120%);
+}
+
+i#disponibilidade:hover, i#favoritar:hover {
+    color: #b22222;
+    font-weight: bold;
+}
+
+label#disponibilidade:hover, label#favoritar:hover {
+    color: #b22222;
+    font-weight: bold;
+}
+
+textarea#item_comentario {
+    width: 80%;
+    height: 100px;
+    font-size: 20px;
+    border: 2px solid #b22222;
+    border-radius: 10px;
+    resize: none;
+    margin-left: -17%;
+}
+
+i#comentario {
+    font-size: 25px;
+    color: #222222;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+i#comentario:hover {
+    color: #b22222;
+}
+
+div#item_outras_sugestions {
+    width: 90%;
+    margin-left: 10%;
+}
+
+li#li_sugestions:hover {
+    background-color: #dcdcdc;
+    font-weight: bold;
+}
+
+div#infos_div p {
+    font-size: 4vmin;
+}
+
+div#perfil_info {
+    width: 80%;
+    margin-top: 10px;
+    margin-left: 10%;
+    background-color: #1c1c1c;
+    border-top: 15px solid #b22222;
+    border-left: 10px solid #ec3d3d;
+    text-align: left;
+    color: #fff;
+    font-size: 20px;
+}
+
+i#configs {
+    margin-top: 30px;
+}
+
+i#configs:hover {
+    color: #b22222;
+}
+
+i#show_button {
+    color: #DCDCDC;
+    position: absolute;
+    right: 100px;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+i#show_button:hover {
+    color: #b22222;
+    font-weight: bold;
+}
+
+div.div_container {
+    background-color: rgb(255, 255, 255);
+    width: 90%;
+    display: block;
+    padding: 20px;
+    border-top: 1px solid #dcdcdc;
+}
+
+i#MFerramentas {
+    position: absolute;
+    font-size: 5vmin;
+    color: #1c1c1c;
+    right: 15%;
+    top: 6%;
+    cursor: pointer;
+}
+
+    i#MFerramentas:hover {
+        color: #b22222;
+    }
+
+i#item_carrinho_remover {
+    position: absolute;
+    font-size: 5vmin;
+    color: #1c1c1c;
+    cursor: pointer;
+    margin-left: 46%;
+}
+
+    i#item_carrinho_remover:hover {
+        color: #b22222;
+    }
+
+section#Valor_Finalizar {
+    width: 20%;
+    height: 30%;
+    position: fixed;
+    color: #fff;
+    background-color: #1c1c1c;
+    border-radius: 10px;
+    right: 4px;
+    bottom: 0px;
+    padding: 20px;
+    text-align: center;
+    border-top: 10px solid #b22222;
+    border-left: 7px solid #ec3d3d;
+}
+
+    section#Valor_Finalizar label {
+        position: absolute;
+        left: 20%;
+        top: 10%;
+        font-size: 3vmin;
+    }
+
+
+button#FinalizarCompra {
+    background-color: #b22222;
+    border-radius: 10px;
+    color: #FFF;
+    font-size: 3vmin;
+    padding: 8px;
+    border: none;
+    cursor: pointer;
+    width: 80%;
+}
+
+    button#FinalizarCompra:hover {
+        filter: brightness(120%);
+    }
+
+input.adicionar_ferramenta {
+    width: 60%;
+    height: 30px;
+    font-size: 15px;
+    margin-left: 15%;
+    margin-right: 20%;
+    border: 2px solid #b22222;
+}
+
+label.adicionar_ferramenta {
+    font-size: 20px;
+}
+
+section#chat {
+    background-color: #dcdcdc;
+    width: 80%;
+    margin-left: 10%;
+    text-align: center;
+}
+
+    section#chat h1 {
+        color: #ffffff;
+        text-align: left;
+        font-size: 3vmin;
+        padding: 10px;
+        padding-left: 20px;
+        background-color: #1c1c1c;
+        border-bottom: 4px solid #b22222;
+        width: 100%;
+    }
+
+    section#chat textarea {
+        width: 100%;
+        margin-left: 0px;
+        margin-top: 0px;
+        font-size: 3vmin;
+        background-color: #ebebeb;
+        border: 1px solid #1c1c1c;
+        padding: 20px;
+        resize: none;
+    }
+
+section#conversa {
+    width: 100%;
+    background-color: #ebebeb;
+    height: 80%;
+    margin-top: -24px;
+    border: 1px solid #1c1c1c;
+}
+
+section#chat i {
+    color: #ffffff;
+    cursor: pointer;
+    margin-top: 0px;
+    margin-left: 0px;
+    position: absolute;
+    background-color: #8b0000;
+    padding: 18px;
+}
+
+    section#chat i:hover {
+        filter: brightness(120%);
+    }
+
+section#perguntas, nav#links {
+    width: 80%;
+    margin-left: 10%;
+    border: 1px solid #1c1c1c;
+}
+
+section#perguntas {
+    margin-top: 30px;
+}
+
+li a, section#chat a {
+    color: #b22222;
+    text-decoration: none;
+    font-size: 2.5vmin;
+}
+
+    li a:hover, section#chat a:hover {
+        font-weight: bold;
+    }
+
+section#perguntas a {
+    text-decoration: none;
+    color: #b22222;
+    transition: color 0.5s;
+    font-size: 3vmin;
+}
+
+    section#perguntas a:hover {
+        color: #1c1c1c;
+        font-weight: bold;
+    }
+
+section#perguntas h1 {
+    width: 100%;
+    background-color: #1c1c1c;
+    border-bottom: 4px solid #b22222;
+    padding: 5px;
+    padding-left: 20px;
+    color: #fff;
+    margin-top: 0px;
+    text-align: left;
+    font-size: 3vmin;
+}
+
+section#perguntas p {
+    font-size: 2.5vmin;
+}
+
+main#Recuperar {
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 6%;
+    background-color: #1c1c1c;
+}
+
+    main#Recuperar section#main {
+        background-color: #fff;
+        width: 95%;
+        margin-left: 10%;
+        padding: 30px;
+        border-top: 15px solid #8b0000;
+        border-left: 10px solid #b22222;
+        text-align: center;
+    }
+
+        main#Recuperar section h1 {
+            color: #1c1c1c;
+            font-size: 4vmin;
+        }
+
+        main#Recuperar section p {
+            color: #707070;
+            font-size: 3vmin;
+            margin-top: 2%;
+        }
+
+        main#Recuperar section input[type="radio"] {
+            margin-top: 10px;
+        }
+
+            main#Recuperar section input[type="radio"]:checked ~ input.RecuperarSenhabtn {
+                background-color: #1c1c1c;
+                cursor: pointer;
+                color: #fff;
+                transition: filter 0.5s;
+            }
+
+                main#Recuperar section input[type="radio"]:checked ~ input.RecuperarSenhabtn:hover {
+                    filter: invert();
+                }
+
+input.RecuperarSenhabtn {
+    background-color: #dcdcdc;
+    color: #000;
+    cursor: not-allowed;
+    height: 35px;
+    width: 40%;
+    margin-top: 25px;
+    border-radius: 30px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 15px;
+    border: none;
+    margin-bottom: 20px;
+}
+
+/*Animation redirect*/
+@keyframes redirect {
+    0% {
+        margin-top: 40%
+    }
+
+    14% {
+        margin-top: 35%
+    }
+
+    28% {
+        margin-top: 30%
+    }
+
+    42% {
+        margin-top: 20%
+    }
+
+    56% {
+        margin-top: 30%
+    }
+
+    70% {
+        margin-top: 35%
+    }
+
+    100% {
+        margin-top: 40%
+    }
+}
+
+form.cadastro_form {
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    margin-left: 25%;
+    margin-right: 25%;
+    font-size: 2.5vmin;
+}
+
+a.CntLinks{
+    color: #b22222;
+    text-decoration: none;
+    font-size: 2.5vmin;
+}
+a.CntLinks:hover{
+    font-weight: bold;
+    filter: brightness(120%);
+}
+
+div#perfil_nav_bar i{
+    margin-bottom: 3%
+}
+
+form#cadastro_ferramenta input{
+    border: 2px solid #b22222;
+    width: 80%
+}
+form#cadastro_ferramenta label{
+    font-size: 3vmin
+}
+
+section#cartao_credito_selected input{
+    width: 100%
+}
+
+.ValidationError{
+    color: #FFF;
+    background-color: #b22222;
+    font-size: 3vmin;
+}
+
+ul#lista_de_pedidos {
+    list-style: none;
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+li#Pedido {
+    width: 100%;
+    margin-top: 2%;
+    border: 2px solid #1c1c1c;
+    display: flex;
+    font-size: 3vmin;
+    padding: 2%
+}
+li#Pedido button{
+    width: 50%;
+    margin-left: 25%;
+    margin-right: 25%;
+    color: #FFF;
+    background-color: #b22222;
+    padding: 1%;
+    border: 1px;
+    border-radius: 10px;
+    font-size: 3vmin;
+    cursor: pointer;
+    margin-top: 3%
+}
+li#Pedido button:hover {
+    filter: brightness(120%);
+}
+
+div#pix_selected {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: 20% 45% 20%;
+}
+button#voltarBtn {
+    background-color: #b22222;
+    width: 10%;
+    color: #FFF;
+    font-size: 3vmin;
+    border-radius: 110px;
+    border: 1px;
+    padding: 0.5%;
+    margin-top: 2%;
+    position: absolute;
+}

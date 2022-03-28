@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Share Tools</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Staatliches&display=swap" rel="stylesheet">
+
+    @using System.Web.Optimization
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundle/js")
+
+    @using System.Security.Claims;
+    @using Tcc2._1.DAL;
+
+</head>
+<body>
+    <section id="fundo">
+
+        <section id="nav_bar">
+            <i class="fas fa-angle-double-left" id="nav_bar_icon_open" onclick="fechar_nav_bar()"></i>
+            <div id="logo_nav_bar">
+                <img src="~/Content/imagens/logo1.png" width="60" height="60" id="logo_nav_bar" alt=""><h1 id="logo_nav_bar_h1">Share Tools</h1>
+            </div>
+            <hr>
+            <div id="perfil_nav_bar" style="text-align: center; display: block; color: #fff;">
+                @{
+                    ToolsContext context = new ToolsContext();
+                    //Pega o user autenticado
+                    var usuarioAutenticado = (ClaimsIdentity)User.Identity;
+                    if (usuarioAutenticado.IsAuthenticated)
+                    {
+                        //Checa os Claims de usuarioAutenticado Onde o tipo de Claim é igual ao Sid, pega o primeiro que encontrar e pega seu valor
+                        var id = Convert.ToInt32(usuarioAutenticado.Claims.Where(c => c.Type == ClaimTypes.Sid).FirstOrDefault().Value);
+                        var usuario = context.Usuario.Find(id);
+
+                        if(usuario.ImagemPerfil != null)
+                        {
+                            var base64 = Convert.ToBase64String(usuario.ImagemPerfil);
+                            var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+
+                            @Html.Raw("<img src=\""+imgSrc+"\" style=\"width: 25%; border-radius: 100px;\" />")
+                        }
+                        else
+                        {
+                            <i class="far fa-user" onclick="irParaPagina('/Home/Perfil')" style="color: #c0c0c0; font-size: 10vmin; cursor: pointer;"></i>
+                        }
+                        @Html.Raw("<p id=\"NomeUser\" class=\"pguser\"> NOME: " + usuario.nome_User + "</p>" +
+                        "<p id=\"UserID\" class=\"pguser\"> ID: " + usuario.UserID + "</p>"
+                        );
+                    }
+                    else
+                    {
+                        <i class="far fa-user" onclick="irParaPagina('/Home/Perfil')" style="color: #c0c0c0; font-size: 10vmin; cursor: pointer;"></i><br />
+                        @Html.ActionLink("Cadastre-se", "Cadastro", null, new { @class = "CntLinks"})
+                        <p id="NomeUser" class="pguser">ou</p>
+                        @Html.ActionLink("Faça Login", "Index", null, new { @class = "CntLinks" })
+                    }
+
+
+                }
+            </div>
+            <hr>
+            <nav id="nav_bar_links">
+                <ul style="list-style: none; text-align: left;">
+                    @{
+                        if (usuarioAutenticado.IsAuthenticated)
+                        {
+                            <li>@Html.ActionLink("Meu Perfil", "Perfil", null, new { @id = "ANav" })</li>
+                            <li>@Html.ActionLink("Inicio", "Principal", null, new { @id = "ANav" })</li>
+                            <li>@Html.ActionLink("Minhas Ferramentas", "MinhasFerramentas", null, new { @id = "ANav" })</li>
+                            <li>@Html.ActionLink("Pedidos", "Pedidos", null, new { @id = "ANav"})</li>
+                            <li>@Html.ActionLink("Meu Carrinho", "Carrinho", null, new { @id = "ANav" })</li>
+                            <li>@Html.ActionLink("Sair", "LogOut", null, new { @id = "ANav" })</li>
+                            <li>@Html.ActionLink("Suporte", "Suporte", null, new { @id="ANav"})</li>
+                        }
+                        else
+                        {
+                            <li>@Html.ActionLink("Inicio", "Principal", null, new { @id = "ANav" })</li>
+                            <li>@Html.ActionLink("Meu Carrinho", "Carrinho", null, new { @id = "ANav" })</li>
+                            <li>@Html.ActionLink("Suporte", "Suporte", null, new { @id = "ANav" })</li>
+                            <li>@Html.ActionLink("Sair", "Index", null, new { @id = "ANav" })</li>
+                        }
+
+
+}
+
+                </ul>
+            </nav>
+            <div id="div_nav_bar_icons_closed">
+                @if (usuarioAutenticado.IsAuthenticated)
+                {
+                    <i class="far fa-user" id="nav_bar_icons_closed" onclick="irParaPagina('/Home/Perfil')"></i><br />
+                    <i class="fas fa-home" id="nav_bar_icons_closed" onclick="irParaPagina('/Home/Principal')"></i><br />
+                    <i class="fas fa-wrench" id="nav_bar_icons_closed" onclick="irParaPagina('/Home/MinhasFerramentas')"></i><br />
+                    <i class="fas fa-money-check-alt" id="nav_bar_icons_closed" onclick="irParaPagina('/Home/Pedidos')"></i><br />
+                    <i class="fas fa-shopping-cart" id="nav_bar_icons_closed" onclick="irParaPagina('/Home/Carrinho')"></i><br />
+                    <i class="fas fa-sign-out-alt" id="nav_bar_icons_closed" onclick="irParaPagina('/Home/LogOut')"></i><br />
+                    <i class="fas fa-question" id="nav_bar_icons_closed" onclick="irParaPagina('/Home/Suporte')"></i>
+                }
+                else
+                {
+                    <i class="fas fa-home" id="nav_bar_icons_closed" onclick="irParaPagina('/Home/Principal')"></i><br />
+                    <i class="fas fa-shopping-cart" id="nav_bar_icons_closed" onclick="irParaPagina('/Home/Carrinho')"></i><br />
+                    <i class="fas fa-question" id="nav_bar_icons_closed" onclick="irParaPagina('/Home/Suporte')"></i>
+                    <i class="fas fa-sign-out-alt" id="nav_bar_icons_closed" onclick="irParaPagina('/Home/Index')"></i><br />
+                }
+            </div>
+        </section>
+
+        @RenderBody()
+    </section>
+</body>
+</html>
